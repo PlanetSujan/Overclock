@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'dart:developer';
 
+import 'package:overclock/main.dart';
+
 class Clocks extends StatefulWidget {
   const Clocks({Key? key}) : super(key: key);
 
@@ -18,8 +20,32 @@ class _ClocksState extends State<Clocks> {
   int ticketNumber = 13;
   String ticketNumberParsed = '13';
 
-  void checkForVacancy(int terminal) {
-    switch (terminal) {
+  var terminal = [
+    Terminal(),
+    Terminal(),
+    Terminal(),
+    Terminal(),
+    Terminal(),
+    Terminal(),
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+    initTerminals();
+  }
+
+  void initTerminals() {
+    for (var i = 0; i < 6; i++) {
+      terminal[i].timer = 2.00;
+      String timerParsed = terminal[i].timer.toString();
+      log(timerParsed);
+    }
+    setState(() {});
+  }
+
+  void checkForVacancy(int _terminal) {
+    switch (_terminal) {
       case 1:
         {
           log('Terminal 1 vacant');
@@ -80,7 +106,7 @@ class _ClocksState extends State<Clocks> {
                         child: Text(
                           '10:00',
                           style: TextStyle(
-                            color: Color.fromARGB(255, 217, 217, 217),
+                            color: Color.fromARGB(255, 169, 169, 169),
                             fontSize: 32,
                             fontWeight: FontWeight.bold,
                           ),
@@ -123,7 +149,7 @@ class _ClocksState extends State<Clocks> {
                         child: Text(
                           '10:00',
                           style: TextStyle(
-                            color: Color.fromARGB(255, 217, 217, 217),
+                            color: Color.fromARGB(255, 169, 169, 169),
                             fontSize: 32,
                             fontWeight: FontWeight.bold,
                           ),
@@ -197,7 +223,7 @@ class _ClocksState extends State<Clocks> {
                         child: Text(
                           '10:00',
                           style: TextStyle(
-                            color: Color.fromARGB(255, 217, 217, 217),
+                            color: Color.fromARGB(255, 169, 169, 169),
                             fontSize: 32,
                             fontWeight: FontWeight.bold,
                           ),
@@ -239,7 +265,7 @@ class _ClocksState extends State<Clocks> {
                         child: Text(
                           '10:00',
                           style: TextStyle(
-                            color: Color.fromARGB(255, 217, 217, 217),
+                            color: Color.fromARGB(255, 169, 169, 169),
                             fontSize: 32,
                             fontWeight: FontWeight.bold,
                           ),
@@ -282,7 +308,7 @@ class _ClocksState extends State<Clocks> {
                         child: Text(
                           '10:00',
                           style: TextStyle(
-                            color: Color.fromARGB(255, 217, 217, 217),
+                            color: Color.fromARGB(255, 169, 169, 169),
                             fontSize: 32,
                             fontWeight: FontWeight.bold,
                           ),
@@ -324,7 +350,7 @@ class _ClocksState extends State<Clocks> {
                         child: Text(
                           '10:00',
                           style: TextStyle(
-                            color: Color.fromARGB(255, 217, 217, 217),
+                            color: Color.fromARGB(255, 169, 169, 169),
                             fontSize: 32,
                             fontWeight: FontWeight.bold,
                           ),
