@@ -13,7 +13,7 @@ class OverClock extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(fontFamily: 'Montserrat-ExtraLight'),
-      home: Clocks(),
+      home: const Clocks(),
     );
   }
 }

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'dart:developer';
 
 class Clocks extends StatefulWidget {
-  Clocks({Key? key}) : super(key: key);
+  const Clocks({Key? key}) : super(key: key);
 
   @override
   State<Clocks> createState() => _ClocksState();
@@ -21,36 +22,33 @@ class _ClocksState extends State<Clocks> {
     switch (terminal) {
       case 1:
         {
-          print('Terminal 1 vacant');
+          log('Terminal 1 vacant');
         }
         break;
       case 2:
         {
-          print('Terminal 2 vacant');
+          log('Terminal 2 vacant');
         }
         break;
       case 3:
         {
-          print('Terminal 3 vacant');
+          log('Terminal 3 vacant');
         }
         break;
       case 4:
         {
-          print('Terminal 4 vacant');
+          log('Terminal 4 vacant');
         }
         break;
       case 5:
         {
-          print('Terminal 5 vacant');
+          log('Terminal 5 vacant');
         }
         break;
       case 6:
         {
-          print('Terminal 6 vacant');
+          log('Terminal 6 vacant');
         }
-        break;
-      default:
-        {}
         break;
     }
     ticketNumber++;
