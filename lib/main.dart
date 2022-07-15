@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:overclock/clocks.dart';
+import 'dart:async';
 
 void main() {
   runApp(const OverClock());
@@ -23,5 +24,6 @@ class OverClock extends StatelessWidget {
 class Terminal {
   bool vacancyState = true;
   bool ticking = false;
-  double timer = 10.00;
+  Timer? timer;
+  Color textColor = Color.fromARGB(255, 203, 203, 203);
 }
