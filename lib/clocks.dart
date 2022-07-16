@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'dart:developer';
 import 'dart:async';
+import 'package:flutter/services.dart';
 
 import 'package:overclock/main.dart';
 
@@ -13,6 +14,15 @@ class Clocks extends StatefulWidget {
 }
 
 class _ClocksState extends State<Clocks> {
+  @override
+  void initState() {
+    super.initState();
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+  }
+
   double globalPadding = 20.0;
 
   double globalFontSize = 20.0;
@@ -91,12 +101,6 @@ class _ClocksState extends State<Clocks> {
     terminal[n].ticking = false;
   }
 
-//Initialize function if required
-  @override
-  void initState() {
-    super.initState();
-  }
-
 //Check to se if terminal is vacant, if so then perform actions
   void checkForVacancy(int n) {
     if (terminal[n].vacancyState == true) {
@@ -172,12 +176,12 @@ class _ClocksState extends State<Clocks> {
       switch (type) {
         case "plus":
           {
-            ticketNumber++;
+            if (ticketNumber < 999) ticketNumber++;
           }
           break;
         case "minus":
           {
-            ticketNumber--;
+            if (ticketNumber > 1) ticketNumber--;
           }
           break;
       }
