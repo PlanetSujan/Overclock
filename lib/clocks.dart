@@ -24,6 +24,9 @@ class _ClocksState extends State<Clocks> {
   double totalTime = 10.00;
   String totalTimeParsed = "";
 
+  Color lightGrey = Color.fromARGB(255, 203, 203, 203);
+  Color darkGrey = Color.fromARGB(255, 90, 90, 90);
+
   var terminal = [
     Terminal(),
     Terminal(),
@@ -33,26 +36,31 @@ class _ClocksState extends State<Clocks> {
     Terminal(),
   ];
 
-  Timer? _timer;
-  int _start = 600;
-
-  void startTimer() {
+  void startTimer(int n) {
+    var _term = terminal[n];
     const oneSec = Duration(seconds: 1);
-    _timer = new Timer.periodic(
+    _term.timer = new Timer.periodic(
       oneSec,
       (Timer timer) {
-        if (_start == 0) {
+        //On timer ticking to 0
+        if (_term.curTime <= 0) {
+          _term.curTime = _term.startTime;
+          _term.totalTime = 10.0;
+          _term.totalTimeParsed = _term.totalTime.toString();
+          _term.vacancyState = true;
           setState(() {
-            totalTime = 10.00;
-            timer.cancel();
+            _term.textColor = lightGrey;
+            _term.timer?.cancel();
           });
+          //Timer ticking
         } else {
-          int minutes = ((_start / 60).floor()) * 100;
-          int seconds = _start % 60;
-          totalTime = (minutes + seconds) / 100;
+          _term.minutes = ((_term.curTime / 60).floor()) * 100;
+          _term.seconds = _term.curTime % 60;
+          _term.totalTime = (_term.minutes + _term.seconds) / 100;
+          _term.totalTimeParsed = _term.totalTime.toString();
           //totalTimeParsed = minutes.toString() + ":" + seconds.toString();
           setState(() {
-            _start--;
+            _term.curTime--;
           });
         }
       },
@@ -70,42 +78,15 @@ class _ClocksState extends State<Clocks> {
     setState(() {});
   }
 
-  void checkForVacancy(int _terminal) {
-    switch (_terminal) {
-      case 1:
-        {
-          log('Terminal 1 vacant');
-        }
-        break;
-      case 2:
-        {
-          log('Terminal 2 vacant');
-        }
-        break;
-      case 3:
-        {
-          log('Terminal 3 vacant');
-        }
-        break;
-      case 4:
-        {
-          log('Terminal 4 vacant');
-        }
-        break;
-      case 5:
-        {
-          log('Terminal 5 vacant');
-        }
-        break;
-      case 6:
-        {
-          log('Terminal 6 vacant');
-        }
-        break;
+  void checkForVacancy(int n) {
+    if (terminal[n].vacancyState) {
+      startTimer(n);
+      terminal[n].textColor = darkGrey;
+      ticketNumber++;
+      ticketNumberParsed = ticketNumber.toString();
+      terminal[n].vacancyState == false;
+      setState(() {});
     }
-    ticketNumber++;
-    ticketNumberParsed = ticketNumber.toString();
-    setState(() {});
   }
 
   @override
@@ -130,9 +111,52 @@ class _ClocksState extends State<Clocks> {
                       child: RotatedBox(
                         quarterTurns: 1,
                         child: Text(
-                          '$totalTime',
-                          style: const TextStyle(
-                            color: Color.fromARGB(255, 203, 203, 203),
+                          terminal[0].totalTimeParsed,
+                          style: TextStyle(
+                            color: terminal[0].textColor,
+                            fontSize: 32,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                    //Call to action
+                    DragTarget(
+                      builder: (context, data, rejectedDate) {
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 0.0),
+                          child: SizedBox(
+                            height: 56,
+                            width: 56,
+                            child: SvgPicture.asset(
+                              'assets/ui/empty_slot_dark.svg',
+                            ),
+                          ),
+                        );
+                      },
+                      onAccept: (data) {
+                        checkForVacancy(0);
+                      },
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.only(top: 350.0),
+                    ),
+                  ],
+                ),
+                const Spacer(),
+                const Spacer(),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    //Sideways timer
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 15.0),
+                      child: RotatedBox(
+                        quarterTurns: 1,
+                        child: Text(
+                          terminal[1].totalTimeParsed,
+                          style: TextStyle(
+                            color: terminal[1].textColor,
                             fontSize: 32,
                             fontWeight: FontWeight.bold,
                           ),
@@ -155,50 +179,6 @@ class _ClocksState extends State<Clocks> {
                       },
                       onAccept: (data) {
                         checkForVacancy(1);
-                        startTimer();
-                      },
-                    ),
-                    const Padding(
-                      padding: EdgeInsets.only(top: 350.0),
-                    ),
-                  ],
-                ),
-                const Spacer(),
-                const Spacer(),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    //Sideways timer
-                    const Padding(
-                      padding: EdgeInsets.only(bottom: 15.0),
-                      child: RotatedBox(
-                        quarterTurns: 1,
-                        child: Text(
-                          '10:00',
-                          style: TextStyle(
-                            color: Color.fromARGB(255, 203, 203, 203),
-                            fontSize: 32,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ),
-                    //Call to action
-                    DragTarget(
-                      builder: (context, data, rejectedDate) {
-                        return Padding(
-                          padding: const EdgeInsets.only(bottom: 0.0),
-                          child: SizedBox(
-                            height: 56,
-                            width: 56,
-                            child: SvgPicture.asset(
-                              'assets/ui/empty_slot_dark.svg',
-                            ),
-                          ),
-                        );
-                      },
-                      onAccept: (data) {
-                        checkForVacancy(2);
                       },
                     ),
 
@@ -239,18 +219,18 @@ class _ClocksState extends State<Clocks> {
                         );
                       },
                       onAccept: (data) {
-                        checkForVacancy(3);
+                        checkForVacancy(2);
                       },
                     ),
                     //Sideways timer
-                    const Padding(
-                      padding: EdgeInsets.only(top: 15.0),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 15.0),
                       child: RotatedBox(
                         quarterTurns: 1,
                         child: Text(
-                          '10:00',
+                          terminal[2].totalTimeParsed,
                           style: TextStyle(
-                            color: Color.fromARGB(255, 203, 203, 203),
+                            color: terminal[2].textColor,
                             fontSize: 32,
                             fontWeight: FontWeight.bold,
                           ),
@@ -281,18 +261,18 @@ class _ClocksState extends State<Clocks> {
                         );
                       },
                       onAccept: (data) {
-                        checkForVacancy(4);
+                        checkForVacancy(3);
                       },
                     ),
                     //Sideways timer
-                    const Padding(
-                      padding: EdgeInsets.only(top: 15.0),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 15.0),
                       child: RotatedBox(
                         quarterTurns: 1,
                         child: Text(
-                          '10:00',
+                          terminal[3].totalTimeParsed,
                           style: TextStyle(
-                            color: Color.fromARGB(255, 203, 203, 203),
+                            color: terminal[3].textColor,
                             fontSize: 32,
                             fontWeight: FontWeight.bold,
                           ),
@@ -324,18 +304,18 @@ class _ClocksState extends State<Clocks> {
                         );
                       },
                       onAccept: (data) {
-                        checkForVacancy(5);
+                        checkForVacancy(4);
                       },
                     ),
                     //Sideways timer
-                    const Padding(
-                      padding: EdgeInsets.only(top: 15.0),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 15.0),
                       child: RotatedBox(
                         quarterTurns: 1,
                         child: Text(
-                          '10:00',
+                          terminal[4].totalTimeParsed,
                           style: TextStyle(
-                            color: Color.fromARGB(255, 203, 203, 203),
+                            color: terminal[4].textColor,
                             fontSize: 32,
                             fontWeight: FontWeight.bold,
                           ),
@@ -366,18 +346,18 @@ class _ClocksState extends State<Clocks> {
                         );
                       },
                       onAccept: (data) {
-                        checkForVacancy(6);
+                        checkForVacancy(5);
                       },
                     ),
                     //Sideways timer
-                    const Padding(
-                      padding: EdgeInsets.only(top: 15.0),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 15.0),
                       child: RotatedBox(
                         quarterTurns: 1,
                         child: Text(
-                          '10:00',
+                          terminal[5].totalTimeParsed,
                           style: TextStyle(
-                            color: Color.fromARGB(255, 203, 203, 203),
+                            color: terminal[5].textColor,
                             fontSize: 32,
                             fontWeight: FontWeight.bold,
                           ),
