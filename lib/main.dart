@@ -25,13 +25,12 @@ class Terminal {
   bool vacancyState = true;
   bool ticking = false;
   Timer? timer;
-  int startTime = 600;
-  int curTime = 600;
+  int startTime = 600; //Amount of seconds to reset to
+  int curTime = 600; //Current time in raw seconds
   int minutes = 0;
   int seconds = 0;
   String minutesParsed = "";
   String secondsParsed = "";
-  double totalTime = 0;
   String totalTimeParsed = "10:00";
   Color textColor = Color.fromARGB(255, 203, 203, 203);
 }

@@ -21,9 +21,6 @@ class _ClocksState extends State<Clocks> {
   int ticketNumber = 13;
   String ticketNumberParsed = '13';
 
-  double totalTime = 10.00;
-  String totalTimeParsed = "";
-
   Color lightGrey = Color.fromARGB(255, 203, 203, 203);
   Color darkGrey = Color.fromARGB(255, 90, 90, 90);
 
@@ -42,18 +39,19 @@ class _ClocksState extends State<Clocks> {
     _term.timer = new Timer.periodic(
       oneSec,
       (Timer timer) {
-        //On timer ticking to 0
+        //On timer reaching 0 or beyond
         if (_term.curTime <= 0) {
           _term.curTime = _term.startTime;
           _term.totalTimeParsed = _term.startTime.toString();
-          _term.vacancyState = true;
           setState(() {
             _term.textColor = lightGrey;
+            _term.vacancyState = true;
             _term.timer?.cancel();
           });
           //Timer ticking
         } else {
-          //_term.minutes = ((_term.curTime / 60).floor()) * 100;
+          //Must be set every time timer ticks to stop duplication
+          _term.vacancyState = false;
           _term.minutes = (_term.curTime / 60).floor();
           _term.seconds = _term.curTime % 60;
           //Add a '0' to the beginning if number less than two digits
@@ -67,9 +65,9 @@ class _ClocksState extends State<Clocks> {
           } else {
             _term.secondsParsed = _term.seconds.toString();
           }
+          //Finalise timer display
           _term.totalTimeParsed =
               _term.minutesParsed + ":" + _term.secondsParsed;
-          //totalTimeParsed = minutes.toString() + ":" + seconds.toString();
           setState(() {
             _term.curTime--;
           });
@@ -78,19 +76,24 @@ class _ClocksState extends State<Clocks> {
     );
   }
 
+//Initialize function if required
   @override
   void initState() {
     super.initState();
   }
 
+//Check to se if terminal is vacant, if so then perform actions
   void checkForVacancy(int n) {
-    if (terminal[n].vacancyState) {
+    if (terminal[n].vacancyState == true) {
       startTimer(n);
       terminal[n].textColor = darkGrey;
       ticketNumber++;
       ticketNumberParsed = ticketNumber.toString();
-      terminal[n].vacancyState == false;
-      setState(() {});
+
+      setState(() {
+        terminal[n].vacancyState == false;
+        log(terminal[n].vacancyState.toString());
+      });
     }
   }
 
