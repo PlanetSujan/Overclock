@@ -45,8 +45,7 @@ class _ClocksState extends State<Clocks> {
         //On timer ticking to 0
         if (_term.curTime <= 0) {
           _term.curTime = _term.startTime;
-          _term.totalTime = 10.0;
-          _term.totalTimeParsed = _term.totalTime.toString();
+          _term.totalTimeParsed = _term.startTime.toString();
           _term.vacancyState = true;
           setState(() {
             _term.textColor = lightGrey;
@@ -54,10 +53,22 @@ class _ClocksState extends State<Clocks> {
           });
           //Timer ticking
         } else {
-          _term.minutes = ((_term.curTime / 60).floor()) * 100;
+          //_term.minutes = ((_term.curTime / 60).floor()) * 100;
+          _term.minutes = (_term.curTime / 60).floor();
           _term.seconds = _term.curTime % 60;
-          _term.totalTime = (_term.minutes + _term.seconds) / 100;
-          _term.totalTimeParsed = _term.totalTime.toString();
+          //Add a '0' to the beginning if number less than two digits
+          if (_term.minutes < 10) {
+            _term.minutesParsed = "0" + _term.minutes.toString();
+          } else {
+            _term.minutesParsed = _term.minutes.toString();
+          }
+          if (_term.seconds < 10) {
+            _term.secondsParsed = "0" + _term.seconds.toString();
+          } else {
+            _term.secondsParsed = _term.seconds.toString();
+          }
+          _term.totalTimeParsed =
+              _term.minutesParsed + ":" + _term.secondsParsed;
           //totalTimeParsed = minutes.toString() + ":" + seconds.toString();
           setState(() {
             _term.curTime--;
@@ -70,12 +81,6 @@ class _ClocksState extends State<Clocks> {
   @override
   void initState() {
     super.initState();
-    initTerminals();
-  }
-
-  void initTerminals() {
-    for (var i = 0; i < 6; i++) {}
-    setState(() {});
   }
 
   void checkForVacancy(int n) {

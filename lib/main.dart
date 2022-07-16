@@ -29,6 +29,8 @@ class Terminal {
   int curTime = 600;
   int minutes = 0;
   int seconds = 0;
+  String minutesParsed = "";
+  String secondsParsed = "";
   double totalTime = 0;
   String totalTimeParsed = "10:00";
   Color textColor = Color.fromARGB(255, 203, 203, 203);
