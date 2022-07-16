@@ -42,7 +42,7 @@ class _ClocksState extends State<Clocks> {
       (Timer timer) {
         //On timer reaching 0 or beyond
         if (_term.curTime <= 0) {
-          resetTimer(n);
+          resetTerminal(n);
           //Timer ticking
         } else {
           if (_term.ticking && !_term.playButtonPaused) {
@@ -76,12 +76,18 @@ class _ClocksState extends State<Clocks> {
   void resetTimer(int n) {
     var _term = terminal[n];
     _term.curTime = _term.startTime;
-    _term.totalTimeParsed = "10:00";
+    _term.totalTimeParsed = "00:00";
     setState(() {
       _term.textColor = lightGrey;
       _term.vacancyState = true;
       _term.timer?.cancel();
     });
+  }
+
+  void resetTerminal(int n) {
+    resetTimer(n);
+    changePlayButtonState(n, "off");
+    terminal[n].ticking = false;
   }
 
 //Initialize function if required
@@ -94,6 +100,7 @@ class _ClocksState extends State<Clocks> {
   void checkForVacancy(int n) {
     if (terminal[n].vacancyState == true) {
       terminal[n].textColor = darkGrey;
+      terminal[n].totalTimeParsed = "10:00";
       changePlayButtonState(n, "play");
       ticketNumber++;
       ticketNumberParsed = ticketNumber.toString();
@@ -117,7 +124,7 @@ class _ClocksState extends State<Clocks> {
         break;
       case "pause":
         {
-          terminal[n].playButtonIcon = Icon(Icons.pause);
+          terminal[n].playButtonIcon = Icon(Icons.stop);
           terminal[n].playButtonColor = darkGrey;
           log("pause state initiated");
         }
@@ -153,9 +160,7 @@ class _ClocksState extends State<Clocks> {
       */
       //Stop/vacate terminal
       if (pressType == "long") {
-        changePlayButtonState(n, "off");
-        terminal[n].ticking = false;
-        resetTimer(n);
+        resetTerminal(n);
         log("stop button press");
       }
     }
@@ -187,6 +192,7 @@ class _ClocksState extends State<Clocks> {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
+                              //Timer text
                               Text(
                                 terminal[0].totalTimeParsed,
                                 style: TextStyle(
@@ -260,6 +266,7 @@ class _ClocksState extends State<Clocks> {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
+                              //Timer text
                               Text(
                                 terminal[1].totalTimeParsed,
                                 style: TextStyle(
@@ -385,6 +392,7 @@ class _ClocksState extends State<Clocks> {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
+                              //Timer text
                               Text(
                                 terminal[2].totalTimeParsed,
                                 style: TextStyle(
@@ -457,6 +465,7 @@ class _ClocksState extends State<Clocks> {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
+                              //Timer text
                               Text(
                                 terminal[3].totalTimeParsed,
                                 style: TextStyle(
@@ -530,6 +539,7 @@ class _ClocksState extends State<Clocks> {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
+                              //Timer text
                               Text(
                                 terminal[4].totalTimeParsed,
                                 style: TextStyle(
@@ -603,6 +613,7 @@ class _ClocksState extends State<Clocks> {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
+                              //Timer text
                               Text(
                                 terminal[5].totalTimeParsed,
                                 style: TextStyle(

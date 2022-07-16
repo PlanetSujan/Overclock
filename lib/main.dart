@@ -30,7 +30,7 @@ class Terminal {
   int seconds = 0;
   String minutesParsed = "";
   String secondsParsed = "";
-  String totalTimeParsed = "10:00";
+  String totalTimeParsed = "00:00";
   Color textColor = Color.fromARGB(255, 203, 203, 203);
   bool playButtonVisible = false;
   String playButtonState = "off";
