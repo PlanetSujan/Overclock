@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:overclock/clocks.dart';
 import 'dart:async';
@@ -33,4 +32,9 @@ class Terminal {
   String secondsParsed = "";
   String totalTimeParsed = "10:00";
   Color textColor = Color.fromARGB(255, 203, 203, 203);
+  bool playButtonVisible = false;
+  String playButtonState = "off";
+  bool playButtonPaused = false;
+  Color playButtonColor = Color.fromARGB(255, 255, 136, 0);
+  Icon playButtonIcon = Icon(Icons.play_arrow);
 }

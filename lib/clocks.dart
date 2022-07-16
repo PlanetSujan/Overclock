@@ -23,6 +23,7 @@ class _ClocksState extends State<Clocks> {
 
   Color lightGrey = Color.fromARGB(255, 203, 203, 203);
   Color darkGrey = Color.fromARGB(255, 90, 90, 90);
+  Color orange = Color.fromARGB(255, 255, 136, 0);
 
   var terminal = [
     Terminal(),
@@ -41,39 +42,46 @@ class _ClocksState extends State<Clocks> {
       (Timer timer) {
         //On timer reaching 0 or beyond
         if (_term.curTime <= 0) {
-          _term.curTime = _term.startTime;
-          _term.totalTimeParsed = "10:00";
-          setState(() {
-            _term.textColor = lightGrey;
-            _term.vacancyState = true;
-            _term.timer?.cancel();
-          });
+          resetTimer(n);
           //Timer ticking
         } else {
-          //Must be set every time timer ticks to stop duplication
-          _term.vacancyState = false;
-          _term.minutes = (_term.curTime / 60).floor();
-          _term.seconds = _term.curTime % 60;
-          //Add a '0' to the beginning if number less than two digits
-          if (_term.minutes < 10) {
-            _term.minutesParsed = "0" + _term.minutes.toString();
-          } else {
-            _term.minutesParsed = _term.minutes.toString();
+          if (_term.ticking && !_term.playButtonPaused) {
+            //Must be set every time timer ticks to stop duplication
+            _term.vacancyState = false;
+            _term.minutes = (_term.curTime / 60).floor();
+            _term.seconds = _term.curTime % 60;
+            //Add a '0' to the beginning if number less than two digits
+            if (_term.minutes < 10) {
+              _term.minutesParsed = "0" + _term.minutes.toString();
+            } else {
+              _term.minutesParsed = _term.minutes.toString();
+            }
+            if (_term.seconds < 10) {
+              _term.secondsParsed = "0" + _term.seconds.toString();
+            } else {
+              _term.secondsParsed = _term.seconds.toString();
+            }
+            //Finalise timer display
+            _term.totalTimeParsed =
+                _term.minutesParsed + ":" + _term.secondsParsed;
+            setState(() {
+              _term.curTime--;
+            });
           }
-          if (_term.seconds < 10) {
-            _term.secondsParsed = "0" + _term.seconds.toString();
-          } else {
-            _term.secondsParsed = _term.seconds.toString();
-          }
-          //Finalise timer display
-          _term.totalTimeParsed =
-              _term.minutesParsed + ":" + _term.secondsParsed;
-          setState(() {
-            _term.curTime--;
-          });
         }
       },
     );
+  }
+
+  void resetTimer(int n) {
+    var _term = terminal[n];
+    _term.curTime = _term.startTime;
+    _term.totalTimeParsed = "10:00";
+    setState(() {
+      _term.textColor = lightGrey;
+      _term.vacancyState = true;
+      _term.timer?.cancel();
+    });
   }
 
 //Initialize function if required
@@ -85,15 +93,71 @@ class _ClocksState extends State<Clocks> {
 //Check to se if terminal is vacant, if so then perform actions
   void checkForVacancy(int n) {
     if (terminal[n].vacancyState == true) {
-      startTimer(n);
       terminal[n].textColor = darkGrey;
+      changePlayButtonState(n, "play");
       ticketNumber++;
       ticketNumberParsed = ticketNumber.toString();
-
       setState(() {
         terminal[n].vacancyState == false;
         log(terminal[n].vacancyState.toString());
       });
+    }
+  }
+
+//Set icons, visibility etc. below when play button state is changed
+  void changePlayButtonState(int n, String state) {
+    switch (state) {
+      case "play":
+        {
+          terminal[n].playButtonIcon = Icon(Icons.play_arrow);
+          terminal[n].playButtonColor = orange;
+          terminal[n].playButtonVisible = true;
+          log("play state initiated");
+        }
+        break;
+      case "pause":
+        {
+          terminal[n].playButtonIcon = Icon(Icons.pause);
+          terminal[n].playButtonColor = darkGrey;
+          log("pause state initiated");
+        }
+        break;
+      case "off":
+        {
+          terminal[n].playButtonVisible = false;
+          log("pause state initiated");
+        }
+        break;
+    }
+    terminal[n].playButtonState = state;
+  }
+
+  //Functionality for what happens when the button is pressed depending on state
+  void pressPlayButton(int n, String pressType) {
+    if (terminal[n].playButtonState == "play" && !terminal[n].ticking) {
+      if (!terminal[0].playButtonPaused) {
+        startTimer(n);
+        log("play button press");
+      }
+      changePlayButtonState(n, "pause");
+      terminal[n].ticking = true;
+    } else if (terminal[n].playButtonState == "pause" && terminal[n].ticking) {
+      //Pause
+      /*
+      if (pressType == "short") {
+        terminal[n].playButtonPaused = false;
+        changePlayButtonState(n, "play");
+        terminal[n].ticking = false;
+        log("pause button press");
+      }
+      */
+      //Stop/vacate terminal
+      if (pressType == "long") {
+        changePlayButtonState(n, "off");
+        terminal[n].ticking = false;
+        resetTimer(n);
+        log("stop button press");
+      }
     }
   }
 
@@ -137,22 +201,44 @@ class _ClocksState extends State<Clocks> {
                       ),
                     ),
                     //Call to action
-                    DragTarget(
-                      builder: (context, data, rejectedDate) {
-                        return Padding(
-                          padding: const EdgeInsets.only(bottom: 0.0),
-                          child: SizedBox(
-                            height: 56,
-                            width: 56,
-                            child: SvgPicture.asset(
-                              'assets/ui/empty_slot_dark.svg',
+                    Stack(
+                      children: [
+                        DragTarget(
+                          builder: (context, data, rejectedDate) {
+                            return Padding(
+                              padding: const EdgeInsets.only(bottom: 0.0),
+                              child: SizedBox(
+                                height: 56,
+                                width: 56,
+                                child: SvgPicture.asset(
+                                  'assets/ui/empty_slot_dark.svg',
+                                ),
+                              ),
+                            );
+                          },
+                          onAccept: (data) {
+                            checkForVacancy(0);
+                          },
+                        ),
+                        //Play/Pause button
+                        Visibility(
+                          visible: terminal[0].playButtonVisible,
+                          child: InkWell(
+                            splashColor: terminal[0].playButtonColor,
+                            onLongPress: () {
+                              pressPlayButton(0, "long");
+                            },
+                            child: FloatingActionButton(
+                              backgroundColor: terminal[0].playButtonColor,
+                              child: terminal[0].playButtonIcon,
+                              onPressed: () {
+                                pressPlayButton(0, "short");
+                                log("play button pressed");
+                              },
                             ),
                           ),
-                        );
-                      },
-                      onAccept: (data) {
-                        checkForVacancy(0);
-                      },
+                        ),
+                      ],
                     ),
                     const Padding(
                       padding: EdgeInsets.only(top: 350.0),
@@ -434,7 +520,7 @@ class _ClocksState extends State<Clocks> {
               data: 1,
               child: FloatingActionButton(
                 onPressed: () {},
-                backgroundColor: const Color.fromARGB(255, 255, 136, 0),
+                backgroundColor: orange,
                 child: Text(
                   ticketNumberParsed,
                   style: const TextStyle(
@@ -445,7 +531,7 @@ class _ClocksState extends State<Clocks> {
               ),
               feedback: FloatingActionButton(
                 onPressed: () {},
-                backgroundColor: const Color.fromARGB(255, 255, 136, 0),
+                backgroundColor: orange,
                 child: Text(
                   ticketNumberParsed,
                   style: const TextStyle(
