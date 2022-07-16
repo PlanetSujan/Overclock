@@ -42,7 +42,7 @@ class _ClocksState extends State<Clocks> {
         //On timer reaching 0 or beyond
         if (_term.curTime <= 0) {
           _term.curTime = _term.startTime;
-          _term.totalTimeParsed = _term.startTime.toString();
+          _term.totalTimeParsed = "10:00";
           setState(() {
             _term.textColor = lightGrey;
             _term.vacancyState = true;
@@ -114,16 +114,24 @@ class _ClocksState extends State<Clocks> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     //Sideways timer
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 15.0),
-                      child: RotatedBox(
-                        quarterTurns: 1,
-                        child: Text(
-                          terminal[0].totalTimeParsed,
-                          style: TextStyle(
-                            color: terminal[0].textColor,
-                            fontSize: 32,
-                            fontWeight: FontWeight.bold,
+                    RotatedBox(
+                      quarterTurns: 1,
+                      child: Container(
+                        child: SizedBox(
+                          height: 56,
+                          width: 108,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                terminal[0].totalTimeParsed,
+                                style: TextStyle(
+                                  color: terminal[0].textColor,
+                                  fontSize: 32,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ),
@@ -157,16 +165,24 @@ class _ClocksState extends State<Clocks> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     //Sideways timer
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 15.0),
-                      child: RotatedBox(
-                        quarterTurns: 1,
-                        child: Text(
-                          terminal[1].totalTimeParsed,
-                          style: TextStyle(
-                            color: terminal[1].textColor,
-                            fontSize: 32,
-                            fontWeight: FontWeight.bold,
+                    RotatedBox(
+                      quarterTurns: 1,
+                      child: Container(
+                        child: SizedBox(
+                          height: 56,
+                          width: 108,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                terminal[1].totalTimeParsed,
+                                style: TextStyle(
+                                  color: terminal[1].textColor,
+                                  fontSize: 32,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ),
@@ -231,16 +247,24 @@ class _ClocksState extends State<Clocks> {
                       },
                     ),
                     //Sideways timer
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 15.0),
-                      child: RotatedBox(
-                        quarterTurns: 1,
-                        child: Text(
-                          terminal[2].totalTimeParsed,
-                          style: TextStyle(
-                            color: terminal[2].textColor,
-                            fontSize: 32,
-                            fontWeight: FontWeight.bold,
+                    RotatedBox(
+                      quarterTurns: 1,
+                      child: Container(
+                        child: SizedBox(
+                          height: 56,
+                          width: 108,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                terminal[2].totalTimeParsed,
+                                style: TextStyle(
+                                  color: terminal[2].textColor,
+                                  fontSize: 32,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ),
@@ -273,16 +297,24 @@ class _ClocksState extends State<Clocks> {
                       },
                     ),
                     //Sideways timer
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 15.0),
-                      child: RotatedBox(
-                        quarterTurns: 1,
-                        child: Text(
-                          terminal[3].totalTimeParsed,
-                          style: TextStyle(
-                            color: terminal[3].textColor,
-                            fontSize: 32,
-                            fontWeight: FontWeight.bold,
+                    RotatedBox(
+                      quarterTurns: 1,
+                      child: Container(
+                        child: SizedBox(
+                          height: 56,
+                          width: 108,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                terminal[3].totalTimeParsed,
+                                style: TextStyle(
+                                  color: terminal[3].textColor,
+                                  fontSize: 32,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ),
@@ -316,16 +348,24 @@ class _ClocksState extends State<Clocks> {
                       },
                     ),
                     //Sideways timer
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 15.0),
-                      child: RotatedBox(
-                        quarterTurns: 1,
-                        child: Text(
-                          terminal[4].totalTimeParsed,
-                          style: TextStyle(
-                            color: terminal[4].textColor,
-                            fontSize: 32,
-                            fontWeight: FontWeight.bold,
+                    RotatedBox(
+                      quarterTurns: 1,
+                      child: Container(
+                        child: SizedBox(
+                          height: 56,
+                          width: 108,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                terminal[4].totalTimeParsed,
+                                style: TextStyle(
+                                  color: terminal[4].textColor,
+                                  fontSize: 32,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ),
@@ -358,16 +398,25 @@ class _ClocksState extends State<Clocks> {
                       },
                     ),
                     //Sideways timer
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 15.0),
-                      child: RotatedBox(
-                        quarterTurns: 1,
-                        child: Text(
-                          terminal[5].totalTimeParsed,
-                          style: TextStyle(
-                            color: terminal[5].textColor,
-                            fontSize: 32,
-                            fontWeight: FontWeight.bold,
+                    RotatedBox(
+                      quarterTurns: 1,
+                      child: Container(
+                        //color: Colors.red,
+                        child: SizedBox(
+                          height: 56,
+                          width: 108,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                terminal[5].totalTimeParsed,
+                                style: TextStyle(
+                                  color: terminal[5].textColor,
+                                  fontSize: 32,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ),
