@@ -18,8 +18,9 @@ class _ClocksState extends State<Clocks> {
   double globalFontSize = 20.0;
   String globalFont = 'Montserrat';
 
-  int ticketNumber = 13;
-  String ticketNumberParsed = '13';
+  int ticketNumber = 1;
+  String ticketNumberParsed = '1';
+  bool ticketButtonsVisible = true;
 
   Color lightGrey = Color.fromARGB(255, 203, 203, 203);
   Color darkGrey = Color.fromARGB(255, 90, 90, 90);
@@ -163,6 +164,26 @@ class _ClocksState extends State<Clocks> {
         resetTerminal(n);
         log("stop button press");
       }
+    }
+  }
+
+  void pressTicketButton(String type) {
+    if (ticketButtonsVisible) {
+      switch (type) {
+        case "plus":
+          {
+            ticketNumber++;
+          }
+          break;
+        case "minus":
+          {
+            ticketNumber--;
+          }
+          break;
+      }
+      setState(() {
+        ticketNumberParsed = ticketNumber.toString();
+      });
     }
   }
 
@@ -636,37 +657,108 @@ class _ClocksState extends State<Clocks> {
           //>>>>>>>>>>>>>> DRAGGABLE TICKET WIDGET
           Align(
             alignment: Alignment.center,
-            child: Draggable(
-              data: 1,
-              child: FloatingActionButton(
-                onPressed: () {},
-                backgroundColor: orange,
-                child: Text(
-                  ticketNumberParsed,
-                  style: const TextStyle(
-                    fontFamily: 'Montserrat-SemiBold',
-                    fontSize: 20,
+            child: Row(
+              children: [
+                Spacer(),
+                Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Visibility(
+                    visible: ticketButtonsVisible,
+                    child: InkWell(
+                      splashColor: Colors.white,
+                      child: FloatingActionButton(
+                        backgroundColor: Colors.white,
+                        elevation: 0,
+                        child: Text(
+                          "-",
+                          style: TextStyle(
+                            fontFamily: 'Montserrat-SemiBold',
+                            color: lightGrey,
+                            fontSize: 40,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        onPressed: () {
+                          pressTicketButton("minus");
+                        },
+                      ),
+                    ),
                   ),
                 ),
-              ),
-              feedback: FloatingActionButton(
-                onPressed: () {},
-                backgroundColor: orange,
-                child: Text(
-                  ticketNumberParsed,
-                  style: const TextStyle(
-                    fontFamily: 'Montserrat-SemiBold',
-                    fontSize: 20,
+                Draggable(
+                  data: 1,
+                  child: FloatingActionButton(
+                    onPressed: () {},
+                    backgroundColor: orange,
+                    child: Text(
+                      ticketNumberParsed,
+                      style: const TextStyle(
+                        fontFamily: 'Montserrat-SemiBold',
+                        fontSize: 20,
+                      ),
+                    ),
+                  ),
+                  feedback: FloatingActionButton(
+                    onPressed: () {},
+                    backgroundColor: orange,
+                    child: Text(
+                      ticketNumberParsed,
+                      style: const TextStyle(
+                        fontFamily: 'Montserrat-SemiBold',
+                        fontSize: 20,
+                      ),
+                    ),
+                  ),
+                  childWhenDragging: SizedBox(
+                    height: 56,
+                    width: 56,
+                    child: SvgPicture.asset(
+                      'assets/ui/empty_slot_light.svg',
+                    ),
+                  ),
+                  onDragStarted: () {
+                    setState(() {
+                      ticketButtonsVisible = false;
+                    });
+                  },
+                  onDragCompleted: () {
+                    setState(() {
+                      ticketButtonsVisible = true;
+                    });
+                  },
+                  onDragEnd: (data) {
+                    setState(() {
+                      ticketButtonsVisible = true;
+                    });
+                  },
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Visibility(
+                    visible: ticketButtonsVisible,
+                    child: InkWell(
+                      splashColor: Colors.white,
+                      child: FloatingActionButton(
+                        backgroundColor: Colors.white,
+                        elevation: 0,
+                        child: Text(
+                          "+",
+                          style: TextStyle(
+                            fontFamily: 'Montserrat-SemiBold',
+                            color: lightGrey,
+                            fontSize: 40,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        onPressed: () {
+                          pressTicketButton("plus");
+                        },
+                      ),
+                    ),
                   ),
                 ),
-              ),
-              childWhenDragging: SizedBox(
-                height: 56,
-                width: 56,
-                child: SvgPicture.asset(
-                  'assets/ui/empty_slot_light.svg',
-                ),
-              ),
+                Spacer(),
+              ],
             ),
           ),
         ],
