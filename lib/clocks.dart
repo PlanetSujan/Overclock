@@ -46,37 +46,37 @@ class _ClocksState extends State<Clocks> {
   ];
 
   void startTimer(int n) {
-    var _term = terminal[n];
     const oneSec = Duration(seconds: 1);
-    _term.timer = new Timer.periodic(
+    terminal[n].timer = Timer.periodic(
       oneSec,
       (Timer timer) {
         //On timer reaching 0 or beyond
-        if (_term.curTime <= 0) {
+        if (terminal[n].curTime <= 0) {
+          terminal[n].slotImage = 'assets/ui/empty_slot_end.svg';
           resetTerminal(n);
           //Timer ticking
         } else {
-          if (_term.ticking && !_term.playButtonPaused) {
+          if (terminal[n].ticking && !terminal[n].playButtonPaused) {
             //Must be set every time timer ticks to stop duplication
-            _term.vacancyState = false;
-            _term.minutes = (_term.curTime / 60).floor();
-            _term.seconds = _term.curTime % 60;
+            terminal[n].vacancyState = false;
+            terminal[n].minutes = (terminal[n].curTime / 60).floor();
+            terminal[n].seconds = terminal[n].curTime % 60;
             //Add a '0' to the beginning if number less than two digits
-            if (_term.minutes < 10) {
-              _term.minutesParsed = "0" + _term.minutes.toString();
+            if (terminal[n].minutes < 10) {
+              terminal[n].minutesParsed = "0" + terminal[n].minutes.toString();
             } else {
-              _term.minutesParsed = _term.minutes.toString();
+              terminal[n].minutesParsed = terminal[n].minutes.toString();
             }
-            if (_term.seconds < 10) {
-              _term.secondsParsed = "0" + _term.seconds.toString();
+            if (terminal[n].seconds < 10) {
+              terminal[n].secondsParsed = "0" + terminal[n].seconds.toString();
             } else {
-              _term.secondsParsed = _term.seconds.toString();
+              terminal[n].secondsParsed = terminal[n].seconds.toString();
             }
             //Finalise timer display
-            _term.totalTimeParsed =
-                _term.minutesParsed + ":" + _term.secondsParsed;
+            terminal[n].totalTimeParsed =
+                terminal[n].minutesParsed + ":" + terminal[n].secondsParsed;
             setState(() {
-              _term.curTime--;
+              terminal[n].curTime--;
             });
           }
         }
@@ -85,13 +85,12 @@ class _ClocksState extends State<Clocks> {
   }
 
   void resetTimer(int n) {
-    var _term = terminal[n];
-    _term.curTime = _term.startTime;
-    _term.totalTimeParsed = "00:00";
+    terminal[n].curTime = terminal[n].startTime;
+    terminal[n].totalTimeParsed = "00:00";
     setState(() {
-      _term.textColor = lightGrey;
-      _term.vacancyState = true;
-      _term.timer?.cancel();
+      terminal[n].textColor = lightGrey;
+      terminal[n].vacancyState = true;
+      terminal[n].timer?.cancel();
     });
   }
 
@@ -101,7 +100,7 @@ class _ClocksState extends State<Clocks> {
     terminal[n].ticking = false;
   }
 
-//Check to se if terminal is vacant, if so then perform actions
+//Check if terminal is vacant, if so then perform actions
   void checkForVacancy(int n) {
     if (terminal[n].vacancyState == true) {
       terminal[n].textColor = darkGrey;
@@ -111,7 +110,6 @@ class _ClocksState extends State<Clocks> {
       ticketNumberParsed = ticketNumber.toString();
       setState(() {
         terminal[n].vacancyState == false;
-        log(terminal[n].vacancyState.toString());
       });
     }
   }
@@ -124,20 +122,17 @@ class _ClocksState extends State<Clocks> {
           terminal[n].playButtonIcon = Icon(Icons.play_arrow);
           terminal[n].playButtonColor = darkGrey;
           terminal[n].playButtonVisible = true;
-          log("play state initiated");
         }
         break;
       case "pause":
         {
           terminal[n].playButtonIcon = Icon(Icons.stop);
           terminal[n].playButtonColor = darkGrey;
-          log("pause state initiated");
         }
         break;
       case "off":
         {
           terminal[n].playButtonVisible = false;
-          log("pause state initiated");
         }
         break;
     }
@@ -173,7 +168,6 @@ class _ClocksState extends State<Clocks> {
       //Stop/vacate terminal
       if (pressType == "long") {
         resetTerminal(n);
-        log("stop button press");
       }
     }
   }
@@ -271,7 +265,6 @@ class _ClocksState extends State<Clocks> {
                               child: terminal[0].playButtonIcon,
                               onPressed: () {
                                 pressPlayButton(0, "short");
-                                log("play button pressed");
                               },
                             ),
                           ),
@@ -345,7 +338,6 @@ class _ClocksState extends State<Clocks> {
                               child: terminal[1].playButtonIcon,
                               onPressed: () {
                                 pressPlayButton(1, "short");
-                                log("play button pressed");
                               },
                             ),
                           ),
@@ -407,7 +399,6 @@ class _ClocksState extends State<Clocks> {
                               child: terminal[2].playButtonIcon,
                               onPressed: () {
                                 pressPlayButton(2, "short");
-                                log("play button pressed");
                               },
                             ),
                           ),
@@ -480,7 +471,6 @@ class _ClocksState extends State<Clocks> {
                               child: terminal[3].playButtonIcon,
                               onPressed: () {
                                 pressPlayButton(3, "short");
-                                log("play button pressed");
                               },
                             ),
                           ),
@@ -554,7 +544,6 @@ class _ClocksState extends State<Clocks> {
                               child: terminal[4].playButtonIcon,
                               onPressed: () {
                                 pressPlayButton(4, "short");
-                                log("play button pressed");
                               },
                             ),
                           ),
@@ -627,7 +616,6 @@ class _ClocksState extends State<Clocks> {
                               child: terminal[5].playButtonIcon,
                               onPressed: () {
                                 pressPlayButton(5, "short");
-                                log("play button pressed");
                               },
                             ),
                           ),
@@ -678,6 +666,7 @@ class _ClocksState extends State<Clocks> {
                     child: InkWell(
                       splashColor: Colors.white,
                       child: FloatingActionButton(
+                        mini: true,
                         backgroundColor: Colors.white,
                         elevation: 0,
                         child: Text(
@@ -750,6 +739,7 @@ class _ClocksState extends State<Clocks> {
                     child: InkWell(
                       splashColor: Colors.white,
                       child: FloatingActionButton(
+                        mini: true,
                         backgroundColor: Colors.white,
                         elevation: 0,
                         child: Text(
