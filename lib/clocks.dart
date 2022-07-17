@@ -147,12 +147,19 @@ class _ClocksState extends State<Clocks> {
   //Functionality for what happens when the button is pressed depending on state
   void pressPlayButton(int n, String pressType) {
     if (terminal[n].playButtonState == "play" && !terminal[n].ticking) {
-      if (!terminal[0].playButtonPaused) {
-        startTimer(n);
-        log("play button press");
+      if (pressType == "short") {
+        if (!terminal[0].playButtonPaused) {
+          startTimer(n);
+        }
+        changePlayButtonState(n, "pause");
+        terminal[n].ticking = true;
+      } else if (pressType == "long") {
+        ticketNumber--;
+        setState(() {
+          ticketNumberParsed = ticketNumber.toString();
+        });
+        resetTerminal(n);
       }
-      changePlayButtonState(n, "pause");
-      terminal[n].ticking = true;
     } else if (terminal[n].playButtonState == "pause" && terminal[n].ticking) {
       //Pause
       /*
