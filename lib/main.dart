@@ -39,5 +39,5 @@ class Terminal {
   Icon playButtonIcon = Icon(Icons.play_arrow);
   String slotImage = 'assets/ui/empty_slot_dark.svg';
   bool outlineVisible = true;
-  String outlineImage = 'assets/ui/terminal_outline_dark.svg';
+  String outlineImage = 'assets/ui/terminal_outline_light.svg';
 }
