@@ -369,6 +369,16 @@ class _ClocksState extends State<Clocks> {
                     //Call to action
                     Stack(
                       children: [
+                        SizedBox(
+                          height: 168,
+                          width: 56,
+                          child: Visibility(
+                            visible: terminal[2].outlineVisible,
+                            child: SvgPicture.asset(
+                              terminal[2].outlineImage,
+                            ),
+                          ),
+                        ),
                         DragTarget(
                           builder: (context, data, rejectedDate) {
                             return Padding(
@@ -403,31 +413,38 @@ class _ClocksState extends State<Clocks> {
                             ),
                           ),
                         ),
-                      ],
-                    ),
-                    //Sideways timer
-                    RotatedBox(
-                      quarterTurns: 1,
-                      child: Container(
-                        child: SizedBox(
-                          height: 56,
-                          width: 108,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              //Timer text
-                              Text(
-                                terminal[2].totalTimeParsed,
-                                style: TextStyle(
-                                  color: terminal[2].textColor,
-                                  fontSize: 32,
-                                  fontWeight: FontWeight.bold,
+                        Column(
+                          children: [
+                            const Padding(
+                              padding: EdgeInsets.all(27),
+                            ),
+                            //Sideways timer
+                            RotatedBox(
+                              quarterTurns: 1,
+                              child: Container(
+                                child: SizedBox(
+                                  height: 56,
+                                  width: 108,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      //Timer text
+                                      Text(
+                                        terminal[2].totalTimeParsed,
+                                        style: TextStyle(
+                                          color: terminal[2].textColor,
+                                          fontSize: 32,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
-                      ),
+                      ],
                     ),
                   ],
                 ),

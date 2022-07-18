@@ -38,5 +38,6 @@ class Terminal {
   Color playButtonColor = Color.fromARGB(255, 255, 136, 0);
   Icon playButtonIcon = Icon(Icons.play_arrow);
   String slotImage = 'assets/ui/empty_slot_dark.svg';
-  bool outlineVisible = false;
+  bool outlineVisible = true;
+  String outlineImage = 'assets/ui/terminal_outline_dark.svg';
 }
