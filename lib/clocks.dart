@@ -6,6 +6,20 @@ import 'package:flutter/services.dart';
 
 import 'package:overclock/main.dart';
 
+class name extends StatefulWidget {
+  name({Key? key}) : super(key: key);
+
+  @override
+  State<name> createState() => _nameState();
+}
+
+class _nameState extends State<name> {
+  @override
+  Widget build(BuildContext context) {
+    return Container();
+  }
+}
+
 class Clocks extends StatefulWidget {
   const Clocks({Key? key}) : super(key: key);
 
@@ -35,6 +49,7 @@ class _ClocksState extends State<Clocks> {
   Color lightGrey = Color.fromARGB(255, 203, 203, 203);
   Color darkGrey = Color.fromARGB(255, 90, 90, 90);
   Color orange = Color.fromARGB(255, 255, 136, 0);
+  Color red = Colors.red;
 
   var terminal = [
     Terminal(),
@@ -53,7 +68,7 @@ class _ClocksState extends State<Clocks> {
         //On timer reaching 0 or beyond
         if (terminal[n].curTime <= 0) {
           terminal[n].slotImage = 'assets/ui/empty_slot_end.svg';
-          resetTerminal(n);
+          resetTerminal(n, "timeout");
           //Timer ticking
         } else {
           if (terminal[n].ticking && !terminal[n].playButtonPaused) {
@@ -84,37 +99,47 @@ class _ClocksState extends State<Clocks> {
     );
   }
 
-  void resetTimer(int n) {
+  void resetTimer(int n, String type) {
     terminal[n].curTime = terminal[n].startTime;
     terminal[n].totalTimeParsed = "00:00";
     setState(() {
-      terminal[n].textColor = lightGrey;
-      terminal[n].vacancyState = true;
       terminal[n].timer?.cancel();
     });
-  }
-
-  void resetTerminal(int n) {
-    resetTimer(n);
-    changePlayButtonState(n, "off");
-    terminal[n].ticking = false;
-  }
-
-//Check if terminal is vacant, if so then perform actions
-  void checkForVacancy(int n) {
-    if (terminal[n].vacancyState == true) {
-      terminal[n].textColor = darkGrey;
-      terminal[n].totalTimeParsed = "10:00";
-      changePlayButtonState(n, "play");
-      ticketNumber++;
-      ticketNumberParsed = ticketNumber.toString();
-      setState(() {
-        terminal[n].vacancyState == false;
-      });
+    switch (type) {
+      case "reset":
+        {
+          terminal[n].textColor = lightGrey;
+        }
+        break;
+      case "timeout":
+        {
+          terminal[n].textColor = red;
+        }
+        break;
     }
   }
 
-//Set icons, visibility etc. below when play button state is changed
+  void resetTerminal(int n, String type) {
+    switch (type) {
+      case "reset":
+        {
+          resetTimer(n, type);
+          changePlayButtonState(n, "off");
+          terminal[n].vacancyState = true;
+          terminal[n].ticking = false;
+        }
+        break;
+      case "timeout":
+        {
+          resetTimer(n, type);
+          changePlayButtonState(n, "finished");
+          terminal[n].ticking = false;
+        }
+        break;
+    }
+  }
+
+  //Set icons, visibility etc. below when play button state is changed
   void changePlayButtonState(int n, String state) {
     switch (state) {
       case "play":
@@ -130,6 +155,12 @@ class _ClocksState extends State<Clocks> {
           terminal[n].playButtonColor = darkGrey;
         }
         break;
+      case "finished":
+        {
+          terminal[n].playButtonIcon = Icon(Icons.close);
+          terminal[n].playButtonColor = red;
+        }
+        break;
       case "off":
         {
           terminal[n].playButtonVisible = false;
@@ -139,23 +170,40 @@ class _ClocksState extends State<Clocks> {
     terminal[n].playButtonState = state;
   }
 
+  //Check if terminal is vacant, if so then perform actions
+  void checkForVacancy(int n) {
+    if (terminal[n].vacancyState == true) {
+      terminal[n].textColor = darkGrey;
+      terminal[n].totalTimeParsed = "10:00";
+      changePlayButtonState(n, "play");
+      ticketNumber++;
+      ticketNumberParsed = ticketNumber.toString();
+      setState(() {
+        terminal[n].vacancyState == false;
+      });
+    }
+  }
+
   //Functionality for what happens when the button is pressed depending on state
   void pressPlayButton(int n, String pressType) {
     if (terminal[n].playButtonState == "play" && !terminal[n].ticking) {
+      //If play button short pressed
       if (pressType == "short") {
         if (!terminal[0].playButtonPaused) {
           startTimer(n);
         }
         changePlayButtonState(n, "pause");
         terminal[n].ticking = true;
+        //If play button long pressed
       } else if (pressType == "long") {
         ticketNumber--;
         setState(() {
           ticketNumberParsed = ticketNumber.toString();
         });
-        resetTerminal(n);
+        resetTerminal(n, "reset");
       }
-    } else if (terminal[n].playButtonState == "pause" && terminal[n].ticking) {
+    } else if (terminal[n].playButtonState == "pause" ||
+        terminal[n].playButtonState == "finished") {
       //Pause
       /*
       if (pressType == "short") {
@@ -167,7 +215,7 @@ class _ClocksState extends State<Clocks> {
       */
       //Stop/vacate terminal
       if (pressType == "long") {
-        resetTerminal(n);
+        resetTerminal(n, "reset");
       }
     }
   }
@@ -780,7 +828,7 @@ class _ClocksState extends State<Clocks> {
                                     children: [
                                       //Timer text
                                       Text(
-                                        terminal[3].totalTimeParsed,
+                                        terminal[5].totalTimeParsed,
                                         style: TextStyle(
                                           color: terminal[5].textColor,
                                           fontSize: 32,
