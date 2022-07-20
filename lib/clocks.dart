@@ -208,71 +208,112 @@ class _ClocksState extends State<Clocks> {
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    //Sideways timer
-                    RotatedBox(
-                      quarterTurns: 1,
-                      child: Container(
-                        child: SizedBox(
-                          height: 56,
-                          width: 108,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              //Timer text
-                              Text(
-                                terminal[0].totalTimeParsed,
-                                style: TextStyle(
-                                  color: terminal[0].textColor,
-                                  fontSize: 32,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
                     //Call to action
                     Stack(
                       children: [
-                        DragTarget(
-                          builder: (context, data, rejectedDate) {
-                            return Padding(
-                              padding: const EdgeInsets.only(bottom: 0.0),
-                              child: SizedBox(
-                                height: 56,
-                                width: 56,
-                                child: SvgPicture.asset(
-                                  'assets/ui/empty_slot_dark.svg',
+                        Column(
+                          children: [
+                            //Sideways timer
+                            RotatedBox(
+                              quarterTurns: 1,
+                              child: Container(
+                                child: SizedBox(
+                                  height: 56,
+                                  width: 108,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          const Padding(
+                                            padding: EdgeInsets.only(right: 15),
+                                          ),
+                                          Text(
+                                            terminal[0].totalTimeParsed,
+                                            style: TextStyle(
+                                              color: terminal[0].textColor,
+                                              fontSize: 32,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      //Timer text
+                                    ],
+                                  ),
                                 ),
                               ),
-                            );
-                          },
-                          onAccept: (data) {
-                            checkForVacancy(0);
-                          },
+                            ),
+                            const Padding(
+                              padding: EdgeInsets.all(27),
+                            ),
+                            const Padding(
+                              padding: EdgeInsets.only(top: 350.0),
+                            ),
+                          ],
                         ),
-                        //Play/Pause button
-                        Visibility(
-                          visible: terminal[0].playButtonVisible,
-                          child: InkWell(
-                            splashColor: terminal[0].playButtonColor,
-                            onLongPress: () {
-                              pressPlayButton(0, "long");
-                            },
-                            child: FloatingActionButton(
-                              backgroundColor: terminal[0].playButtonColor,
-                              child: terminal[0].playButtonIcon,
-                              onPressed: () {
-                                pressPlayButton(0, "short");
-                              },
+                        //Outline
+                        RotatedBox(
+                          quarterTurns: 2,
+                          child: SizedBox(
+                            height: 168,
+                            width: 56,
+                            child: Visibility(
+                              visible: terminal[0].outlineVisible,
+                              child: SvgPicture.asset(
+                                terminal[0].outlineImage,
+                              ),
                             ),
                           ),
                         ),
+                        Column(
+                          children: [
+                            const Padding(
+                                padding: EdgeInsets.only(bottom: 110)),
+                            Stack(
+                              children: [
+                                //Empty slot
+                                DragTarget(
+                                  builder: (context, data, rejectedDate) {
+                                    return Padding(
+                                      padding:
+                                          const EdgeInsets.only(bottom: 0.0),
+                                      child: SizedBox(
+                                        height: 56,
+                                        width: 56,
+                                        child: SvgPicture.asset(
+                                          'assets/ui/empty_slot_dark.svg',
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  onAccept: (data) {
+                                    checkForVacancy(0);
+                                  },
+                                ),
+                                //Play/Pause button
+                                Visibility(
+                                  visible: terminal[0].playButtonVisible,
+                                  child: InkWell(
+                                    splashColor: terminal[0].playButtonColor,
+                                    onLongPress: () {
+                                      pressPlayButton(0, "long");
+                                    },
+                                    child: FloatingActionButton(
+                                      backgroundColor:
+                                          terminal[0].playButtonColor,
+                                      child: terminal[0].playButtonIcon,
+                                      onPressed: () {
+                                        pressPlayButton(0, "short");
+                                      },
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       ],
-                    ),
-                    const Padding(
-                      padding: EdgeInsets.only(top: 350.0),
                     ),
                   ],
                 ),
@@ -281,71 +322,112 @@ class _ClocksState extends State<Clocks> {
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    //Sideways timer
-                    RotatedBox(
-                      quarterTurns: 1,
-                      child: Container(
-                        child: SizedBox(
-                          height: 56,
-                          width: 108,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              //Timer text
-                              Text(
-                                terminal[1].totalTimeParsed,
-                                style: TextStyle(
-                                  color: terminal[1].textColor,
-                                  fontSize: 32,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
                     //Call to action
                     Stack(
                       children: [
-                        DragTarget(
-                          builder: (context, data, rejectedDate) {
-                            return Padding(
-                              padding: const EdgeInsets.only(bottom: 0.0),
-                              child: SizedBox(
-                                height: 56,
-                                width: 56,
-                                child: SvgPicture.asset(
-                                  'assets/ui/empty_slot_dark.svg',
+                        Column(
+                          children: [
+                            //Sideways timer
+                            RotatedBox(
+                              quarterTurns: 1,
+                              child: Container(
+                                child: SizedBox(
+                                  height: 56,
+                                  width: 108,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          const Padding(
+                                            padding: EdgeInsets.only(right: 15),
+                                          ),
+                                          Text(
+                                            terminal[1].totalTimeParsed,
+                                            style: TextStyle(
+                                              color: terminal[1].textColor,
+                                              fontSize: 32,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      //Timer text
+                                    ],
+                                  ),
                                 ),
                               ),
-                            );
-                          },
-                          onAccept: (data) {
-                            checkForVacancy(1);
-                          },
+                            ),
+                            const Padding(
+                              padding: EdgeInsets.all(27),
+                            ),
+                            const Padding(
+                              padding: EdgeInsets.only(top: 350.0),
+                            ),
+                          ],
                         ),
-                        //Play/Pause button
-                        Visibility(
-                          visible: terminal[1].playButtonVisible,
-                          child: InkWell(
-                            splashColor: terminal[1].playButtonColor,
-                            onLongPress: () {
-                              pressPlayButton(1, "long");
-                            },
-                            child: FloatingActionButton(
-                              backgroundColor: terminal[1].playButtonColor,
-                              child: terminal[1].playButtonIcon,
-                              onPressed: () {
-                                pressPlayButton(1, "short");
-                              },
+                        //Outline
+                        RotatedBox(
+                          quarterTurns: 2,
+                          child: SizedBox(
+                            height: 168,
+                            width: 56,
+                            child: Visibility(
+                              visible: terminal[1].outlineVisible,
+                              child: SvgPicture.asset(
+                                terminal[1].outlineImage,
+                              ),
                             ),
                           ),
                         ),
+                        Column(
+                          children: [
+                            const Padding(
+                                padding: EdgeInsets.only(bottom: 110)),
+                            Stack(
+                              children: [
+                                //Empty slot
+                                DragTarget(
+                                  builder: (context, data, rejectedDate) {
+                                    return Padding(
+                                      padding:
+                                          const EdgeInsets.only(bottom: 0.0),
+                                      child: SizedBox(
+                                        height: 56,
+                                        width: 56,
+                                        child: SvgPicture.asset(
+                                          'assets/ui/empty_slot_dark.svg',
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  onAccept: (data) {
+                                    checkForVacancy(1);
+                                  },
+                                ),
+                                //Play/Pause button
+                                Visibility(
+                                  visible: terminal[1].playButtonVisible,
+                                  child: InkWell(
+                                    splashColor: terminal[1].playButtonColor,
+                                    onLongPress: () {
+                                      pressPlayButton(1, "long");
+                                    },
+                                    child: FloatingActionButton(
+                                      backgroundColor:
+                                          terminal[1].playButtonColor,
+                                      child: terminal[1].playButtonIcon,
+                                      onPressed: () {
+                                        pressPlayButton(1, "short");
+                                      },
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       ],
-                    ),
-                    const Padding(
-                      padding: EdgeInsets.only(top: 350.0),
                     ),
                   ],
                 ),
