@@ -144,6 +144,7 @@ class _ClocksState extends State<Clocks> {
     switch (state) {
       case "play":
         {
+          terminal[n].outlineImage = 'assets/ui/terminal_outline_dark.svg';
           terminal[n].playButtonIcon = Icon(Icons.play_arrow);
           terminal[n].playButtonColor = darkGrey;
           terminal[n].playButtonVisible = true;
@@ -151,18 +152,21 @@ class _ClocksState extends State<Clocks> {
         break;
       case "pause":
         {
+          terminal[n].outlineImage = 'assets/ui/terminal_outline_dark.svg';
           terminal[n].playButtonIcon = Icon(Icons.stop);
           terminal[n].playButtonColor = darkGrey;
         }
         break;
       case "finished":
         {
+          terminal[n].outlineImage = 'assets/ui/terminal_outline_end.svg';
           terminal[n].playButtonIcon = Icon(Icons.close);
           terminal[n].playButtonColor = red;
         }
         break;
       case "off":
         {
+          terminal[n].outlineImage = 'assets/ui/terminal_outline_light.svg';
           terminal[n].playButtonVisible = false;
         }
         break;

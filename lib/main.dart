@@ -24,8 +24,8 @@ class Terminal {
   bool vacancyState = true;
   bool ticking = false;
   Timer? timer;
-  int startTime = 600; //Amount of seconds to reset to
-  int curTime = 600; //Current time in raw seconds
+  int startTime = 5; //Amount of seconds to reset to
+  int curTime = 5; //Current time in raw seconds
   int minutes = 0;
   int seconds = 0;
   String minutesParsed = "";
