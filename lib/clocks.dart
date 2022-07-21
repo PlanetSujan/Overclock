@@ -244,6 +244,21 @@ class _ClocksState extends State<Clocks> {
     }
   }
 
+  void changeOutline(int n, String state) {
+    switch (state) {
+      case "light":
+        {
+          terminal[n].outlineImage = 'assets/ui/terminal_outline_light';
+        }
+        break;
+      case "dark":
+        {
+          terminal[n].outlineImage = 'assets/ui/terminal_outline_dark';
+        }
+        break;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -342,6 +357,7 @@ class _ClocksState extends State<Clocks> {
                                   onAccept: (data) {
                                     checkForVacancy(0);
                                   },
+                                  //onWillAccept: (data) => changeOutline(0, "dark"),
                                 ),
                                 //Play/Pause button
                                 Visibility(
@@ -563,13 +579,20 @@ class _ClocksState extends State<Clocks> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       //Timer text
-                                      Text(
-                                        terminal[2].totalTimeParsed,
-                                        style: TextStyle(
-                                          color: terminal[2].textColor,
-                                          fontSize: 32,
-                                          fontWeight: FontWeight.bold,
-                                        ),
+                                      Row(
+                                        children: [
+                                          const Padding(
+                                            padding: EdgeInsets.only(right: 10),
+                                          ),
+                                          Text(
+                                            terminal[2].totalTimeParsed,
+                                            style: TextStyle(
+                                              color: terminal[2].textColor,
+                                              fontSize: 32,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ],
                                   ),
@@ -652,13 +675,20 @@ class _ClocksState extends State<Clocks> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       //Timer text
-                                      Text(
-                                        terminal[3].totalTimeParsed,
-                                        style: TextStyle(
-                                          color: terminal[3].textColor,
-                                          fontSize: 32,
-                                          fontWeight: FontWeight.bold,
-                                        ),
+                                      Row(
+                                        children: [
+                                          const Padding(
+                                            padding: EdgeInsets.only(right: 10),
+                                          ),
+                                          Text(
+                                            terminal[3].totalTimeParsed,
+                                            style: TextStyle(
+                                              color: terminal[3].textColor,
+                                              fontSize: 32,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ],
                                   ),
@@ -742,13 +772,20 @@ class _ClocksState extends State<Clocks> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       //Timer text
-                                      Text(
-                                        terminal[4].totalTimeParsed,
-                                        style: TextStyle(
-                                          color: terminal[4].textColor,
-                                          fontSize: 32,
-                                          fontWeight: FontWeight.bold,
-                                        ),
+                                      Row(
+                                        children: [
+                                          const Padding(
+                                            padding: EdgeInsets.only(right: 10),
+                                          ),
+                                          Text(
+                                            terminal[4].totalTimeParsed,
+                                            style: TextStyle(
+                                              color: terminal[4].textColor,
+                                              fontSize: 32,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ],
                                   ),
@@ -831,13 +868,20 @@ class _ClocksState extends State<Clocks> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       //Timer text
-                                      Text(
-                                        terminal[5].totalTimeParsed,
-                                        style: TextStyle(
-                                          color: terminal[5].textColor,
-                                          fontSize: 32,
-                                          fontWeight: FontWeight.bold,
-                                        ),
+                                      Row(
+                                        children: [
+                                          const Padding(
+                                            padding: EdgeInsets.only(right: 10),
+                                          ),
+                                          Text(
+                                            terminal[5].totalTimeParsed,
+                                            style: TextStyle(
+                                              color: terminal[5].textColor,
+                                              fontSize: 32,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ],
                                   ),
