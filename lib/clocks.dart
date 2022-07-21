@@ -3,8 +3,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'dart:developer';
 import 'dart:async';
 import 'package:flutter/services.dart';
-
 import 'package:overclock/main.dart';
+import 'package:vibration/vibration.dart';
 
 class name extends StatefulWidget {
   name({Key? key}) : super(key: key);
@@ -133,6 +133,7 @@ class _ClocksState extends State<Clocks> {
         {
           resetTimer(n, type);
           changePlayButtonState(n, "finished");
+          Vibration.vibrate(duration: 1000);
           terminal[n].ticking = false;
         }
         break;
@@ -341,24 +342,22 @@ class _ClocksState extends State<Clocks> {
                               children: [
                                 //Empty slot
                                 DragTarget(
-                                  builder: (context, data, rejectedDate) {
-                                    return Padding(
-                                      padding:
-                                          const EdgeInsets.only(bottom: 0.0),
-                                      child: SizedBox(
-                                        height: 56,
-                                        width: 56,
-                                        child: SvgPicture.asset(
-                                          'assets/ui/empty_slot_dark.svg',
-                                        ),
+                                    builder: (context, data, rejectedDate) {
+                                  return Padding(
+                                    padding: const EdgeInsets.only(bottom: 0.0),
+                                    child: SizedBox(
+                                      height: 56,
+                                      width: 56,
+                                      child: SvgPicture.asset(
+                                        'assets/ui/empty_slot_dark.svg',
                                       ),
-                                    );
-                                  },
-                                  onAccept: (data) {
-                                    checkForVacancy(0);
-                                  },
-                                  //onWillAccept: (data) => changeOutline(0, "dark"),
-                                ),
+                                    ),
+                                  );
+                                }, onAccept: (data) {
+                                  checkForVacancy(0);
+                                }, onWillAccept: (data) {
+                                  return true;
+                                }),
                                 //Play/Pause button
                                 Visibility(
                                   visible: terminal[0].playButtonVisible,
