@@ -95,12 +95,12 @@ class _ClocksState extends State<Clocks> {
             setState(() {
               terminal[n].curTime--;
             });
-            if (terminal[n].curTime < 5 && !terminal[n].timerHalfway) {
+            if (terminal[n].curTime < 300 && !terminal[n].timerHalfway) {
               changeVisualState(n, "halfway");
               log("halfway");
               terminal[n].timerHalfway = true;
             }
-            if (terminal[n].curTime < 1 && !terminal[n].timerNearlyFinished) {
+            if (terminal[n].curTime < 60 && !terminal[n].timerNearlyFinished) {
               changeVisualState(n, "nearlyfinished");
               log("nearly finished");
               terminal[n].timerNearlyFinished = true;
@@ -397,6 +397,7 @@ class _ClocksState extends State<Clocks> {
                                     ),
                                   ),
                                 ),
+                                //Target drag function
                                 DragTarget(
                                     builder: (context, data, rejectedDate) {
                                   return SizedBox(
@@ -486,23 +487,12 @@ class _ClocksState extends State<Clocks> {
                             Stack(
                               children: [
                                 //Empty slot
-                                DragTarget(
-                                  builder: (context, data, rejectedDate) {
-                                    return Padding(
-                                      padding:
-                                          const EdgeInsets.only(bottom: 0.0),
-                                      child: SizedBox(
-                                        height: 56,
-                                        width: 56,
-                                        child: SvgPicture.asset(
-                                          'assets/ui/empty_slot_dark.svg',
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                  onAccept: (data) {
-                                    checkForVacancy(1);
-                                  },
+                                SizedBox(
+                                  height: 56,
+                                  width: 56,
+                                  child: SvgPicture.asset(
+                                    'assets/ui/empty_slot_dark.svg',
+                                  ),
                                 ),
                                 //Play/Pause button
                                 Visibility(
@@ -522,6 +512,18 @@ class _ClocksState extends State<Clocks> {
                                     ),
                                   ),
                                 ),
+                                //Target drag function
+                                DragTarget(
+                                    builder: (context, data, rejectedDate) {
+                                  return SizedBox(
+                                    height: 56,
+                                    width: 56,
+                                  );
+                                }, onAccept: (data) {
+                                  checkForVacancy(1);
+                                }, onWillAccept: (data) {
+                                  return true;
+                                }),
                               ],
                             ),
                           ],
@@ -560,22 +562,13 @@ class _ClocksState extends State<Clocks> {
                             ),
                           ),
                         ),
-                        DragTarget(
-                          builder: (context, data, rejectedDate) {
-                            return Padding(
-                              padding: const EdgeInsets.only(bottom: 0.0),
-                              child: SizedBox(
-                                height: 56,
-                                width: 56,
-                                child: SvgPicture.asset(
-                                  'assets/ui/empty_slot_dark.svg',
-                                ),
-                              ),
-                            );
-                          },
-                          onAccept: (data) {
-                            checkForVacancy(2);
-                          },
+                        //Empty slot
+                        SizedBox(
+                          height: 56,
+                          width: 56,
+                          child: SvgPicture.asset(
+                            'assets/ui/empty_slot_dark.svg',
+                          ),
                         ),
                         //Play/Pause button
                         Visibility(
@@ -594,6 +587,17 @@ class _ClocksState extends State<Clocks> {
                             ),
                           ),
                         ),
+                        //Target drag function
+                        DragTarget(builder: (context, data, rejectedDate) {
+                          return SizedBox(
+                            height: 56,
+                            width: 56,
+                          );
+                        }, onAccept: (data) {
+                          checkForVacancy(2);
+                        }, onWillAccept: (data) {
+                          return true;
+                        }),
                         Column(
                           children: [
                             const Padding(
@@ -656,22 +660,13 @@ class _ClocksState extends State<Clocks> {
                             ),
                           ),
                         ),
-                        DragTarget(
-                          builder: (context, data, rejectedDate) {
-                            return Padding(
-                              padding: const EdgeInsets.only(bottom: 0.0),
-                              child: SizedBox(
-                                height: 56,
-                                width: 56,
-                                child: SvgPicture.asset(
-                                  'assets/ui/empty_slot_dark.svg',
-                                ),
-                              ),
-                            );
-                          },
-                          onAccept: (data) {
-                            checkForVacancy(3);
-                          },
+                        //Empty slot
+                        SizedBox(
+                          height: 56,
+                          width: 56,
+                          child: SvgPicture.asset(
+                            'assets/ui/empty_slot_dark.svg',
+                          ),
                         ),
                         //Play/Pause button
                         Visibility(
@@ -690,6 +685,17 @@ class _ClocksState extends State<Clocks> {
                             ),
                           ),
                         ),
+                        //Target drag function
+                        DragTarget(builder: (context, data, rejectedDate) {
+                          return SizedBox(
+                            height: 56,
+                            width: 56,
+                          );
+                        }, onAccept: (data) {
+                          checkForVacancy(3);
+                        }, onWillAccept: (data) {
+                          return true;
+                        }),
                         Column(
                           children: [
                             const Padding(
@@ -753,22 +759,13 @@ class _ClocksState extends State<Clocks> {
                             ),
                           ),
                         ),
-                        DragTarget(
-                          builder: (context, data, rejectedDate) {
-                            return Padding(
-                              padding: const EdgeInsets.only(bottom: 0.0),
-                              child: SizedBox(
-                                height: 56,
-                                width: 56,
-                                child: SvgPicture.asset(
-                                  'assets/ui/empty_slot_dark.svg',
-                                ),
-                              ),
-                            );
-                          },
-                          onAccept: (data) {
-                            checkForVacancy(4);
-                          },
+                        //Empty slot
+                        SizedBox(
+                          height: 56,
+                          width: 56,
+                          child: SvgPicture.asset(
+                            'assets/ui/empty_slot_dark.svg',
+                          ),
                         ),
                         //Play/Pause button
                         Visibility(
@@ -787,6 +784,17 @@ class _ClocksState extends State<Clocks> {
                             ),
                           ),
                         ),
+                        //Target drag function
+                        DragTarget(builder: (context, data, rejectedDate) {
+                          return SizedBox(
+                            height: 56,
+                            width: 56,
+                          );
+                        }, onAccept: (data) {
+                          checkForVacancy(4);
+                        }, onWillAccept: (data) {
+                          return true;
+                        }),
                         Column(
                           children: [
                             const Padding(
@@ -849,22 +857,13 @@ class _ClocksState extends State<Clocks> {
                             ),
                           ),
                         ),
-                        DragTarget(
-                          builder: (context, data, rejectedDate) {
-                            return Padding(
-                              padding: const EdgeInsets.only(bottom: 0.0),
-                              child: SizedBox(
-                                height: 56,
-                                width: 56,
-                                child: SvgPicture.asset(
-                                  'assets/ui/empty_slot_dark.svg',
-                                ),
-                              ),
-                            );
-                          },
-                          onAccept: (data) {
-                            checkForVacancy(5);
-                          },
+                        //Empty slot
+                        SizedBox(
+                          height: 56,
+                          width: 56,
+                          child: SvgPicture.asset(
+                            'assets/ui/empty_slot_dark.svg',
+                          ),
                         ),
                         //Play/Pause button
                         Visibility(
@@ -883,6 +882,17 @@ class _ClocksState extends State<Clocks> {
                             ),
                           ),
                         ),
+                        //Target drag function
+                        DragTarget(builder: (context, data, rejectedDate) {
+                          return SizedBox(
+                            height: 56,
+                            width: 56,
+                          );
+                        }, onAccept: (data) {
+                          checkForVacancy(5);
+                        }, onWillAccept: (data) {
+                          return true;
+                        }),
                         Column(
                           children: [
                             const Padding(
