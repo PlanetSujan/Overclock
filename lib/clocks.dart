@@ -239,7 +239,9 @@ class _ClocksState extends State<Clocks> {
         resetTerminal(n, "reset");
       }
     } else if (terminal[n].playButtonState == "pause" ||
-        terminal[n].playButtonState == "finished") {
+        terminal[n].playButtonState == "finished" ||
+        terminal[n].playButtonState == "halfway" ||
+        terminal[n].playButtonState == "nearlyfinished") {
       //Pause
       /*
       if (pressType == "short") {
