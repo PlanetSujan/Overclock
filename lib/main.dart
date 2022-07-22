@@ -24,7 +24,7 @@ class Terminal {
   bool vacancyState = true;
   bool ticking = false;
   Timer? timer;
-  int startTime = 20; //Amount of seconds to reset to
+  int startTime = 600; //Amount of seconds to reset to
   int curTime = 600; //Current time in raw seconds
   int minutes = 0;
   int seconds = 0;
