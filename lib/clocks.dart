@@ -51,6 +51,8 @@ class _ClocksState extends State<Clocks> {
   Color orange = Color.fromARGB(255, 255, 136, 0);
   Color red = Colors.red;
 
+  bool vibrationOn = true;
+
   var terminal = [
     Terminal(),
     Terminal(),
@@ -93,6 +95,16 @@ class _ClocksState extends State<Clocks> {
             setState(() {
               terminal[n].curTime--;
             });
+            if (terminal[n].curTime < 5 && !terminal[n].timerHalfway) {
+              changeVisualState(n, "halfway");
+              log("halfway");
+              terminal[n].timerHalfway = true;
+            }
+            if (terminal[n].curTime < 1 && !terminal[n].timerNearlyFinished) {
+              changeVisualState(n, "nearlyfinished");
+              log("nearly finished");
+              terminal[n].timerNearlyFinished = true;
+            }
           }
         }
       },
@@ -124,7 +136,9 @@ class _ClocksState extends State<Clocks> {
       case "reset":
         {
           resetTimer(n, type);
-          changePlayButtonState(n, "off");
+          changeVisualState(n, "off");
+          terminal[n].timerHalfway = false;
+          terminal[n].timerNearlyFinished = false;
           terminal[n].vacancyState = true;
           terminal[n].ticking = false;
         }
@@ -132,8 +146,11 @@ class _ClocksState extends State<Clocks> {
       case "timeout":
         {
           resetTimer(n, type);
-          changePlayButtonState(n, "finished");
-          Vibration.vibrate(duration: 1000);
+          changeVisualState(n, "finished");
+          if (vibrationOn) Vibration.vibrate(duration: 1000);
+          terminal[n].timerHalfway = false;
+          terminal[n].timerNearlyFinished = false;
+          terminal[n].vacancyState = true;
           terminal[n].ticking = false;
         }
         break;
@@ -141,7 +158,7 @@ class _ClocksState extends State<Clocks> {
   }
 
   //Set icons, visibility etc. below when play button state is changed
-  void changePlayButtonState(int n, String state) {
+  void changeVisualState(int n, String state) {
     switch (state) {
       case "play":
         {
@@ -156,6 +173,20 @@ class _ClocksState extends State<Clocks> {
           terminal[n].outlineImage = 'assets/ui/terminal_outline_dark.svg';
           terminal[n].playButtonIcon = Icon(Icons.stop);
           terminal[n].playButtonColor = darkGrey;
+        }
+        break;
+      case "halfway":
+        {
+          terminal[n].outlineImage = 'assets/ui/terminal_outline_halfway.svg';
+          terminal[n].textColor = orange;
+          if (vibrationOn) Vibration.vibrate(duration: 250);
+        }
+        break;
+      case "nearlyfinished":
+        {
+          terminal[n].outlineImage = 'assets/ui/terminal_outline_end.svg';
+          terminal[n].textColor = red;
+          if (vibrationOn) Vibration.vibrate(duration: 500);
         }
         break;
       case "finished":
@@ -180,7 +211,7 @@ class _ClocksState extends State<Clocks> {
     if (terminal[n].vacancyState == true) {
       terminal[n].textColor = darkGrey;
       terminal[n].totalTimeParsed = "10:00";
-      changePlayButtonState(n, "play");
+      changeVisualState(n, "play");
       ticketNumber++;
       ticketNumberParsed = ticketNumber.toString();
       setState(() {
@@ -197,7 +228,7 @@ class _ClocksState extends State<Clocks> {
         if (!terminal[0].playButtonPaused) {
           startTimer(n);
         }
-        changePlayButtonState(n, "pause");
+        changeVisualState(n, "pause");
         terminal[n].ticking = true;
         //If play button long pressed
       } else if (pressType == "long") {
@@ -341,23 +372,13 @@ class _ClocksState extends State<Clocks> {
                             Stack(
                               children: [
                                 //Empty slot
-                                DragTarget(
-                                    builder: (context, data, rejectedDate) {
-                                  return Padding(
-                                    padding: const EdgeInsets.only(bottom: 0.0),
-                                    child: SizedBox(
-                                      height: 56,
-                                      width: 56,
-                                      child: SvgPicture.asset(
-                                        'assets/ui/empty_slot_dark.svg',
-                                      ),
-                                    ),
-                                  );
-                                }, onAccept: (data) {
-                                  checkForVacancy(0);
-                                }, onWillAccept: (data) {
-                                  return true;
-                                }),
+                                SizedBox(
+                                  height: 56,
+                                  width: 56,
+                                  child: SvgPicture.asset(
+                                    'assets/ui/empty_slot_dark.svg',
+                                  ),
+                                ),
                                 //Play/Pause button
                                 Visibility(
                                   visible: terminal[0].playButtonVisible,
@@ -376,6 +397,17 @@ class _ClocksState extends State<Clocks> {
                                     ),
                                   ),
                                 ),
+                                DragTarget(
+                                    builder: (context, data, rejectedDate) {
+                                  return SizedBox(
+                                    height: 56,
+                                    width: 56,
+                                  );
+                                }, onAccept: (data) {
+                                  checkForVacancy(0);
+                                }, onWillAccept: (data) {
+                                  return true;
+                                }),
                               ],
                             ),
                           ],

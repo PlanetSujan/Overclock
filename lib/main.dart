@@ -24,8 +24,8 @@ class Terminal {
   bool vacancyState = true;
   bool ticking = false;
   Timer? timer;
-  int startTime = 5; //Amount of seconds to reset to
-  int curTime = 5; //Current time in raw seconds
+  int startTime = 10; //Amount of seconds to reset to
+  int curTime = 10; //Current time in raw seconds
   int minutes = 0;
   int seconds = 0;
   String minutesParsed = "";
@@ -40,4 +40,6 @@ class Terminal {
   String slotImage = 'assets/ui/empty_slot_dark.svg';
   bool outlineVisible = true;
   String outlineImage = 'assets/ui/terminal_outline_light.svg';
+  bool timerHalfway = false;
+  bool timerNearlyFinished = false;
 }
