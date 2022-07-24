@@ -32,7 +32,7 @@ class _ClocksState extends State<Clocks> {
   String ticketNumberParsed = '1';
   bool ticketButtonsVisible = true;
 
-  Color faintGrey = Color.fromARGB(255, 240, 240, 240);
+  Color faintGrey = Color.fromARGB(255, 230, 230, 230);
   Color lightGrey = Color.fromARGB(255, 203, 203, 203);
   Color darkGrey = Color.fromARGB(255, 90, 90, 90);
   Color orange = Color.fromARGB(255, 255, 136, 0);
@@ -150,7 +150,7 @@ class _ClocksState extends State<Clocks> {
       case "play":
         {
           terminal[n].outlineImage = 'assets/ui/terminal_outline_dark.svg';
-          terminal[n].playButtonIcon = Icon(Icons.play_arrow);
+          terminal[n].playButtonIcon = const Icon(Icons.play_arrow);
           terminal[n].playButtonColor = darkGrey;
           terminal[n].playButtonVisible = true;
         }
@@ -158,7 +158,7 @@ class _ClocksState extends State<Clocks> {
       case "pause":
         {
           terminal[n].outlineImage = 'assets/ui/terminal_outline_dark.svg';
-          terminal[n].playButtonIcon = Icon(Icons.stop);
+          terminal[n].playButtonIcon = const Icon(Icons.stop);
           terminal[n].playButtonColor = darkGrey;
         }
         break;
@@ -179,7 +179,7 @@ class _ClocksState extends State<Clocks> {
       case "finished":
         {
           terminal[n].outlineImage = 'assets/ui/terminal_outline_end.svg';
-          terminal[n].playButtonIcon = Icon(Icons.close);
+          terminal[n].playButtonIcon = const Icon(Icons.close);
           terminal[n].playButtonColor = red;
         }
         break;
@@ -203,7 +203,6 @@ class _ClocksState extends State<Clocks> {
       changeVisualState(n, "play");
       ticketNumber++;
       ticketNumberParsed = ticketNumber.toString();
-      HapticFeedback.mediumImpact();
       setState(() {
         terminal[n].vacancyState == false;
       });
@@ -382,7 +381,7 @@ class _ClocksState extends State<Clocks> {
                                 //Terminal Number
                                 Column(
                                   children: [
-                                    Padding(
+                                    const Padding(
                                         padding: EdgeInsets.only(bottom: 8)),
                                     SizedBox(
                                       height: 56,
@@ -421,7 +420,7 @@ class _ClocksState extends State<Clocks> {
                                 //Target drag function
                                 DragTarget(
                                   builder: (context, data, rejectedDate) {
-                                    return SizedBox(
+                                    return const SizedBox(
                                       height: 56,
                                       width: 56,
                                     );
@@ -529,7 +528,7 @@ class _ClocksState extends State<Clocks> {
                                 //Terminal Number
                                 Column(
                                   children: [
-                                    Padding(
+                                    const Padding(
                                         padding: EdgeInsets.only(bottom: 8)),
                                     SizedBox(
                                       height: 56,
@@ -568,7 +567,7 @@ class _ClocksState extends State<Clocks> {
                                 //Target drag function
                                 DragTarget(
                                   builder: (context, data, rejectedDate) {
-                                    return SizedBox(
+                                    return const SizedBox(
                                       height: 56,
                                       width: 56,
                                     );
@@ -637,7 +636,7 @@ class _ClocksState extends State<Clocks> {
                         //Terminal Number
                         Column(
                           children: [
-                            Padding(padding: EdgeInsets.only(bottom: 8)),
+                            const Padding(padding: EdgeInsets.only(bottom: 8)),
                             SizedBox(
                               height: 56,
                               width: 56,
@@ -674,7 +673,7 @@ class _ClocksState extends State<Clocks> {
                         //Target drag function
                         DragTarget(
                           builder: (context, data, rejectedDate) {
-                            return SizedBox(
+                            return const SizedBox(
                               height: 56,
                               width: 56,
                             );
@@ -767,7 +766,7 @@ class _ClocksState extends State<Clocks> {
                         //Terminal Number
                         Column(
                           children: [
-                            Padding(padding: EdgeInsets.only(bottom: 8)),
+                            const Padding(padding: EdgeInsets.only(bottom: 8)),
                             SizedBox(
                               height: 56,
                               width: 56,
@@ -804,7 +803,7 @@ class _ClocksState extends State<Clocks> {
                         //Target drag function
                         DragTarget(
                           builder: (context, data, rejectedDate) {
-                            return SizedBox(
+                            return const SizedBox(
                               height: 56,
                               width: 56,
                             );
@@ -898,7 +897,7 @@ class _ClocksState extends State<Clocks> {
                         //Terminal Number
                         Column(
                           children: [
-                            Padding(padding: EdgeInsets.only(bottom: 8)),
+                            const Padding(padding: EdgeInsets.only(bottom: 8)),
                             SizedBox(
                               height: 56,
                               width: 56,
@@ -935,7 +934,7 @@ class _ClocksState extends State<Clocks> {
                         //Target drag function
                         DragTarget(
                           builder: (context, data, rejectedDate) {
-                            return SizedBox(
+                            return const SizedBox(
                               height: 56,
                               width: 56,
                             );
@@ -1028,7 +1027,7 @@ class _ClocksState extends State<Clocks> {
                         //Terminal Number
                         Column(
                           children: [
-                            Padding(padding: EdgeInsets.only(bottom: 8)),
+                            const Padding(padding: EdgeInsets.only(bottom: 8)),
                             SizedBox(
                               height: 56,
                               width: 56,
@@ -1065,7 +1064,7 @@ class _ClocksState extends State<Clocks> {
                         //Target drag function
                         DragTarget(
                           builder: (context, data, rejectedDate) {
-                            return SizedBox(
+                            return const SizedBox(
                               height: 56,
                               width: 56,
                             );
@@ -1136,7 +1135,7 @@ class _ClocksState extends State<Clocks> {
             alignment: Alignment.center,
             child: Row(
               children: [
-                Spacer(),
+                const Spacer(),
                 Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: Visibility(
@@ -1236,7 +1235,7 @@ class _ClocksState extends State<Clocks> {
                     ),
                   ),
                 ),
-                Spacer(),
+                const Spacer(),
               ],
             ),
           ),
