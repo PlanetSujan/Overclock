@@ -390,7 +390,7 @@ class _ClocksState extends State<Clocks> {
                                         "1",
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
-                                          fontFamily: 'Montserrat-SemiBold',
+                                          fontFamily: 'Montserrat-ExtraLight',
                                           color: faintGrey,
                                           fontSize: 32,
                                           fontWeight: FontWeight.bold,
@@ -537,7 +537,7 @@ class _ClocksState extends State<Clocks> {
                                         "2",
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
-                                          fontFamily: 'Montserrat-SemiBold',
+                                          fontFamily: 'Montserrat-ExtraLight',
                                           color: faintGrey,
                                           fontSize: 32,
                                           fontWeight: FontWeight.bold,
@@ -644,7 +644,7 @@ class _ClocksState extends State<Clocks> {
                                 "3",
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                  fontFamily: 'Montserrat-SemiBold',
+                                  fontFamily: 'Montserrat-ExtraLight',
                                   color: faintGrey,
                                   fontSize: 32,
                                   fontWeight: FontWeight.bold,
@@ -774,7 +774,7 @@ class _ClocksState extends State<Clocks> {
                                 "4",
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                  fontFamily: 'Montserrat-SemiBold',
+                                  fontFamily: 'Montserrat-ExtraLight',
                                   color: faintGrey,
                                   fontSize: 32,
                                   fontWeight: FontWeight.bold,
@@ -905,7 +905,7 @@ class _ClocksState extends State<Clocks> {
                                 "5",
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                  fontFamily: 'Montserrat-SemiBold',
+                                  fontFamily: 'Montserrat-ExtraLight',
                                   color: faintGrey,
                                   fontSize: 32,
                                   fontWeight: FontWeight.bold,
@@ -1035,7 +1035,7 @@ class _ClocksState extends State<Clocks> {
                                 "6",
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                  fontFamily: 'Montserrat-SemiBold',
+                                  fontFamily: 'Montserrat-ExtraLight',
                                   color: faintGrey,
                                   fontSize: 32,
                                   fontWeight: FontWeight.bold,
