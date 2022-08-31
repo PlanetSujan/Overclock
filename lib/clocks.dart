@@ -38,7 +38,6 @@ class _ClocksState extends State<Clocks> {
   }
 
   double globalPadding = 20.0;
-
   double globalFontSize = 20.0;
   String globalFont = 'Montserrat';
 
@@ -51,7 +50,7 @@ class _ClocksState extends State<Clocks> {
   Color orange = Color.fromARGB(255, 255, 136, 0);
   Color red = Colors.red;
 
-  bool vibrationOn = true;
+  bool vibrationOn = true; //turn off when debugging
 
   var terminal = [
     Terminal(),
