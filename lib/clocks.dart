@@ -6,6 +6,20 @@ import 'package:flutter/services.dart';
 import 'package:overclock/main.dart';
 import 'package:vibration/vibration.dart';
 
+class name extends StatefulWidget {
+  name({Key? key}) : super(key: key);
+
+  @override
+  State<name> createState() => _nameState();
+}
+
+class _nameState extends State<name> {
+  @override
+  Widget build(BuildContext context) {
+    return Container();
+  }
+}
+
 class Clocks extends StatefulWidget {
   const Clocks({Key? key}) : super(key: key);
 
@@ -31,7 +45,6 @@ class _ClocksState extends State<Clocks> {
   String ticketNumberParsed = '1';
   bool ticketButtonsVisible = true;
 
-  Color faintGrey = Color.fromARGB(255, 230, 230, 230);
   Color lightGrey = Color.fromARGB(255, 203, 203, 203);
   Color darkGrey = Color.fromARGB(255, 90, 90, 90);
   Color orange = Color.fromARGB(255, 255, 136, 0);
@@ -149,7 +162,7 @@ class _ClocksState extends State<Clocks> {
       case "play":
         {
           terminal[n].outlineImage = 'assets/ui/terminal_outline_dark.svg';
-          terminal[n].playButtonIcon = const Icon(Icons.play_arrow);
+          terminal[n].playButtonIcon = Icon(Icons.play_arrow);
           terminal[n].playButtonColor = darkGrey;
           terminal[n].playButtonVisible = true;
         }
@@ -157,7 +170,7 @@ class _ClocksState extends State<Clocks> {
       case "pause":
         {
           terminal[n].outlineImage = 'assets/ui/terminal_outline_dark.svg';
-          terminal[n].playButtonIcon = const Icon(Icons.stop);
+          terminal[n].playButtonIcon = Icon(Icons.stop);
           terminal[n].playButtonColor = darkGrey;
         }
         break;
@@ -178,20 +191,18 @@ class _ClocksState extends State<Clocks> {
       case "finished":
         {
           terminal[n].outlineImage = 'assets/ui/terminal_outline_end.svg';
-          terminal[n].playButtonIcon = const Icon(Icons.close);
+          terminal[n].playButtonIcon = Icon(Icons.close);
           terminal[n].playButtonColor = red;
         }
         break;
       case "off":
         {
-          terminal[n].totalTimeParsed = "";
           terminal[n].outlineImage = 'assets/ui/terminal_outline_light.svg';
-          terminal[n].outlineVisible = false;
           terminal[n].playButtonVisible = false;
         }
         break;
     }
-    terminal[n].visualState = state;
+    terminal[n].playButtonState = state;
   }
 
   //Check if terminal is vacant, if so then perform actions
@@ -210,14 +221,13 @@ class _ClocksState extends State<Clocks> {
 
   //Functionality for what happens when the button is pressed depending on state
   void pressPlayButton(int n, String pressType) {
-    if (terminal[n].visualState == "play" && !terminal[n].ticking) {
+    if (terminal[n].playButtonState == "play" && !terminal[n].ticking) {
       //If play button short pressed
       if (pressType == "short") {
         if (!terminal[0].playButtonPaused) {
           startTimer(n);
         }
         changeVisualState(n, "pause");
-        HapticFeedback.lightImpact();
         terminal[n].ticking = true;
         //If play button long pressed
       } else if (pressType == "long") {
@@ -227,10 +237,10 @@ class _ClocksState extends State<Clocks> {
         });
         resetTerminal(n, "reset");
       }
-    } else if (terminal[n].visualState == "pause" ||
-        terminal[n].visualState == "finished" ||
-        terminal[n].visualState == "halfway" ||
-        terminal[n].visualState == "nearlyfinished") {
+    } else if (terminal[n].playButtonState == "pause" ||
+        terminal[n].playButtonState == "finished" ||
+        terminal[n].playButtonState == "halfway" ||
+        terminal[n].playButtonState == "nearlyfinished") {
       //Pause
       /*
       if (pressType == "short") {
@@ -261,30 +271,24 @@ class _ClocksState extends State<Clocks> {
           }
           break;
       }
-      HapticFeedback.lightImpact();
       setState(() {
         ticketNumberParsed = ticketNumber.toString();
       });
     }
   }
 
-  void selectionStateChange(int n, String type) {
-    if (terminal[n].visualState == "off") {
-      switch (type) {
-        case "selected":
-          {
-            terminal[n].totalTimeParsed = "10:00";
-            terminal[n].outlineVisible = true;
-            HapticFeedback.lightImpact();
-          }
-          break;
-        case "deselected":
-          {
-            terminal[n].totalTimeParsed = "";
-            terminal[n].outlineVisible = false;
-          }
-          break;
-      }
+  void changeOutline(int n, String state) {
+    switch (state) {
+      case "light":
+        {
+          terminal[n].outlineImage = 'assets/ui/terminal_outline_light';
+        }
+        break;
+      case "dark":
+        {
+          terminal[n].outlineImage = 'assets/ui/terminal_outline_dark';
+        }
+        break;
     }
   }
 
@@ -362,7 +366,6 @@ class _ClocksState extends State<Clocks> {
                             ),
                           ),
                         ),
-                        //Slot area visuals
                         Column(
                           children: [
                             const Padding(
@@ -376,27 +379,6 @@ class _ClocksState extends State<Clocks> {
                                   child: SvgPicture.asset(
                                     'assets/ui/empty_slot_dark.svg',
                                   ),
-                                ),
-                                //Terminal Number
-                                Column(
-                                  children: [
-                                    const Padding(
-                                        padding: EdgeInsets.only(bottom: 8)),
-                                    SizedBox(
-                                      height: 56,
-                                      width: 56,
-                                      child: Text(
-                                        "1",
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          fontFamily: 'Montserrat-ExtraLight',
-                                          color: faintGrey,
-                                          fontSize: 32,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
                                 ),
                                 //Play/Pause button
                                 Visibility(
@@ -418,27 +400,16 @@ class _ClocksState extends State<Clocks> {
                                 ),
                                 //Target drag function
                                 DragTarget(
-                                  builder: (context, data, rejectedDate) {
-                                    return const SizedBox(
-                                      height: 56,
-                                      width: 56,
-                                    );
-                                  },
-                                  onAccept: (data) {
-                                    checkForVacancy(0);
-                                  },
-                                  onWillAccept: (data) {
-                                    setState(() {
-                                      selectionStateChange(0, "selected");
-                                    });
-                                    return true;
-                                  },
-                                  onLeave: (data) {
-                                    setState(() {
-                                      selectionStateChange(0, "deselected");
-                                    });
-                                  },
-                                ),
+                                    builder: (context, data, rejectedDate) {
+                                  return SizedBox(
+                                    height: 56,
+                                    width: 56,
+                                  );
+                                }, onAccept: (data) {
+                                  checkForVacancy(0);
+                                }, onWillAccept: (data) {
+                                  return true;
+                                }),
                               ],
                             ),
                           ],
@@ -524,27 +495,6 @@ class _ClocksState extends State<Clocks> {
                                     'assets/ui/empty_slot_dark.svg',
                                   ),
                                 ),
-                                //Terminal Number
-                                Column(
-                                  children: [
-                                    const Padding(
-                                        padding: EdgeInsets.only(bottom: 8)),
-                                    SizedBox(
-                                      height: 56,
-                                      width: 56,
-                                      child: Text(
-                                        "2",
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          fontFamily: 'Montserrat-ExtraLight',
-                                          color: faintGrey,
-                                          fontSize: 32,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
                                 //Play/Pause button
                                 Visibility(
                                   visible: terminal[1].playButtonVisible,
@@ -565,27 +515,16 @@ class _ClocksState extends State<Clocks> {
                                 ),
                                 //Target drag function
                                 DragTarget(
-                                  builder: (context, data, rejectedDate) {
-                                    return const SizedBox(
-                                      height: 56,
-                                      width: 56,
-                                    );
-                                  },
-                                  onAccept: (data) {
-                                    checkForVacancy(1);
-                                  },
-                                  onWillAccept: (data) {
-                                    setState(() {
-                                      selectionStateChange(1, "selected");
-                                    });
-                                    return true;
-                                  },
-                                  onLeave: (data) {
-                                    setState(() {
-                                      selectionStateChange(1, "deselected");
-                                    });
-                                  },
-                                ),
+                                    builder: (context, data, rejectedDate) {
+                                  return SizedBox(
+                                    height: 56,
+                                    width: 56,
+                                  );
+                                }, onAccept: (data) {
+                                  checkForVacancy(1);
+                                }, onWillAccept: (data) {
+                                  return true;
+                                }),
                               ],
                             ),
                           ],
@@ -632,26 +571,6 @@ class _ClocksState extends State<Clocks> {
                             'assets/ui/empty_slot_dark.svg',
                           ),
                         ),
-                        //Terminal Number
-                        Column(
-                          children: [
-                            const Padding(padding: EdgeInsets.only(bottom: 8)),
-                            SizedBox(
-                              height: 56,
-                              width: 56,
-                              child: Text(
-                                "3",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontFamily: 'Montserrat-ExtraLight',
-                                  color: faintGrey,
-                                  fontSize: 32,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
                         //Play/Pause button
                         Visibility(
                           visible: terminal[2].playButtonVisible,
@@ -670,28 +589,16 @@ class _ClocksState extends State<Clocks> {
                           ),
                         ),
                         //Target drag function
-                        DragTarget(
-                          builder: (context, data, rejectedDate) {
-                            return const SizedBox(
-                              height: 56,
-                              width: 56,
-                            );
-                          },
-                          onAccept: (data) {
-                            checkForVacancy(2);
-                          },
-                          onWillAccept: (data) {
-                            setState(() {
-                              selectionStateChange(2, "selected");
-                            });
-                            return true;
-                          },
-                          onLeave: (data) {
-                            setState(() {
-                              selectionStateChange(2, "deselected");
-                            });
-                          },
-                        ),
+                        DragTarget(builder: (context, data, rejectedDate) {
+                          return SizedBox(
+                            height: 56,
+                            width: 56,
+                          );
+                        }, onAccept: (data) {
+                          checkForVacancy(2);
+                        }, onWillAccept: (data) {
+                          return true;
+                        }),
                         Column(
                           children: [
                             const Padding(
@@ -762,26 +669,6 @@ class _ClocksState extends State<Clocks> {
                             'assets/ui/empty_slot_dark.svg',
                           ),
                         ),
-                        //Terminal Number
-                        Column(
-                          children: [
-                            const Padding(padding: EdgeInsets.only(bottom: 8)),
-                            SizedBox(
-                              height: 56,
-                              width: 56,
-                              child: Text(
-                                "4",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontFamily: 'Montserrat-ExtraLight',
-                                  color: faintGrey,
-                                  fontSize: 32,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
                         //Play/Pause button
                         Visibility(
                           visible: terminal[3].playButtonVisible,
@@ -800,28 +687,16 @@ class _ClocksState extends State<Clocks> {
                           ),
                         ),
                         //Target drag function
-                        DragTarget(
-                          builder: (context, data, rejectedDate) {
-                            return const SizedBox(
-                              height: 56,
-                              width: 56,
-                            );
-                          },
-                          onAccept: (data) {
-                            checkForVacancy(3);
-                          },
-                          onWillAccept: (data) {
-                            setState(() {
-                              selectionStateChange(3, "selected");
-                            });
-                            return true;
-                          },
-                          onLeave: (data) {
-                            setState(() {
-                              selectionStateChange(3, "deselected");
-                            });
-                          },
-                        ),
+                        DragTarget(builder: (context, data, rejectedDate) {
+                          return SizedBox(
+                            height: 56,
+                            width: 56,
+                          );
+                        }, onAccept: (data) {
+                          checkForVacancy(3);
+                        }, onWillAccept: (data) {
+                          return true;
+                        }),
                         Column(
                           children: [
                             const Padding(
@@ -893,26 +768,6 @@ class _ClocksState extends State<Clocks> {
                             'assets/ui/empty_slot_dark.svg',
                           ),
                         ),
-                        //Terminal Number
-                        Column(
-                          children: [
-                            const Padding(padding: EdgeInsets.only(bottom: 8)),
-                            SizedBox(
-                              height: 56,
-                              width: 56,
-                              child: Text(
-                                "5",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontFamily: 'Montserrat-ExtraLight',
-                                  color: faintGrey,
-                                  fontSize: 32,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
                         //Play/Pause button
                         Visibility(
                           visible: terminal[4].playButtonVisible,
@@ -931,28 +786,16 @@ class _ClocksState extends State<Clocks> {
                           ),
                         ),
                         //Target drag function
-                        DragTarget(
-                          builder: (context, data, rejectedDate) {
-                            return const SizedBox(
-                              height: 56,
-                              width: 56,
-                            );
-                          },
-                          onAccept: (data) {
-                            checkForVacancy(4);
-                          },
-                          onWillAccept: (data) {
-                            setState(() {
-                              selectionStateChange(4, "selected");
-                            });
-                            return true;
-                          },
-                          onLeave: (data) {
-                            setState(() {
-                              selectionStateChange(4, "deselected");
-                            });
-                          },
-                        ),
+                        DragTarget(builder: (context, data, rejectedDate) {
+                          return SizedBox(
+                            height: 56,
+                            width: 56,
+                          );
+                        }, onAccept: (data) {
+                          checkForVacancy(4);
+                        }, onWillAccept: (data) {
+                          return true;
+                        }),
                         Column(
                           children: [
                             const Padding(
@@ -1023,26 +866,6 @@ class _ClocksState extends State<Clocks> {
                             'assets/ui/empty_slot_dark.svg',
                           ),
                         ),
-                        //Terminal Number
-                        Column(
-                          children: [
-                            const Padding(padding: EdgeInsets.only(bottom: 8)),
-                            SizedBox(
-                              height: 56,
-                              width: 56,
-                              child: Text(
-                                "6",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontFamily: 'Montserrat-ExtraLight',
-                                  color: faintGrey,
-                                  fontSize: 32,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
                         //Play/Pause button
                         Visibility(
                           visible: terminal[5].playButtonVisible,
@@ -1061,28 +884,16 @@ class _ClocksState extends State<Clocks> {
                           ),
                         ),
                         //Target drag function
-                        DragTarget(
-                          builder: (context, data, rejectedDate) {
-                            return const SizedBox(
-                              height: 56,
-                              width: 56,
-                            );
-                          },
-                          onAccept: (data) {
-                            checkForVacancy(5);
-                          },
-                          onWillAccept: (data) {
-                            setState(() {
-                              selectionStateChange(5, "selected");
-                            });
-                            return true;
-                          },
-                          onLeave: (data) {
-                            setState(() {
-                              selectionStateChange(5, "deselected");
-                            });
-                          },
-                        ),
+                        DragTarget(builder: (context, data, rejectedDate) {
+                          return SizedBox(
+                            height: 56,
+                            width: 56,
+                          );
+                        }, onAccept: (data) {
+                          checkForVacancy(5);
+                        }, onWillAccept: (data) {
+                          return true;
+                        }),
                         Column(
                           children: [
                             const Padding(
@@ -1134,7 +945,7 @@ class _ClocksState extends State<Clocks> {
             alignment: Alignment.center,
             child: Row(
               children: [
-                const Spacer(),
+                Spacer(),
                 Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: Visibility(
@@ -1234,7 +1045,7 @@ class _ClocksState extends State<Clocks> {
                     ),
                   ),
                 ),
-                const Spacer(),
+                Spacer(),
               ],
             ),
           ),
